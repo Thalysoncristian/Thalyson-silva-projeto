@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>STTE Relatório Técnico</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="views/images/favicon.ico" type="image/x-icon" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="bootstrap/css/style.css">
+    <style>
+        /* Estilos CSS */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+
+        .container {
+            max-width: 600px;
+            padding: 15px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            text-transform: uppercase;
+            text-align: center;
+            color: #206ab5;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 8px;
+            text-transform: uppercase;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        button {
+            width: 100%;
+            padding: 8px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        button.btn-primary {
+            background-color: #206ab5;
+            color: #fff;
+        }
+
+        button.btn-primary:hover {
+            background-color: #4f81b2;
+        }
+
+        button.btn-success {
+            background-color: #25D366;
+            color: #fff;
+        }
+
+        button.btn-success:hover {
+            background-color: #1DA955;
+        }
+
+        footer {
+            font-size: 0.8em;
+            text-align: center;
+            margin-top: 20px;
+            color: #999;
+        }
+
+        #resultado {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            white-space: pre-wrap; /* Mantém a formatação com quebras de linha */
+            text-transform: uppercase;
+        }
+
+        #resultado img {
+            max-width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .gabinete {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+        }
+
+        #gabinetesContainer {
+            margin-bottom: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="text-center mb-4">
+            <img src="https://gms.stte.com.br/gms_rno/images/logo.jpg" alt="STTE Logo" class="img-fluid rounded" style="max-width: 150px;">
+            <h1 class="display-4 text-primary mt-3">STTE Relatório Técnico</h1>
+        </div>
+        <form id="relatorioForm">
+            <div class="form-group">
+                <label for="site">SITE:</label>
+                <input type="text" id="site" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="ami">AMI:</label>
+                <input type="text" id="ami" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="tecnico">NOME DO TÉCNICO:</label>
+                <input type="text" id="tecnico" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="supervisor">NOME DO SUPERVISOR:</label>
+                <select id="supervisor" class="form-control" required>
+                    <option value="ANTONIO CLEMILTON">ANTONIO CLEMILTON</option>
+                    <option value="JEANETTE KRITSCH">JEANETTE KRITSCH</option>
+                    <option value="JOAO CELIO">JOAO CELIO</option>
+                    <option value="CLAUDIO BALDEZ">CLAUDIO BALDEZ</option>
+                    <option value="GERALDICIO MOTA">GERALDICIO MOTA</option>
+                    <option value="JOSE LEANDRO">JOSE LEANDRO</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="coordenador">COORDENADOR:</label>
+                <select id="coordenador" class="form-control" required>
+                    <option value="DONAYTT MEDEIROS">DONAYTT MEDEIROS</option>
+                    <option value="JOÃO SÁ">JOÃO SÁ</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="dataAcionamento">DATA ACIONAMENTO:</label>
+                <input type="datetime-local" id="dataAcionamento" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="dataDeslocamento">DATA HORA DESLOCAMENTO:</label>
+                <input type="datetime-local" id="dataDeslocamento" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="dataEntradaSite">DATA HORA ENTRADA SITE:</label>
+                <input type="datetime-local" id="dataEntradaSite" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="dataSaidaSite">DATA HORA SAÍDA SITE:</label>
+                <input type="datetime-local" id="dataSaidaSite" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="quemAcionou">QUEM ACIONOU:</label>
+                <input type="text" id="quemAcionou" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="cadeado">SITE POSSUI CADEADO:</label>
+                <select id="cadeado" class="form-control" required>
+                    <option value="SIM">SIM</option>
+                    <option value="NAO">NÃO</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="modeloCadeado">MODELO DO CADEADO ENTRADA DO SITE:</label>
+                <input type="text" id="modeloCadeado" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="Gradilcadeado">GRADIL POSSUI CADEADO:</label>
+                <select id="Gradilcadeado" class="form-control">
+                    <option value="SIM">SIM</option>
+                    <option value="NAO">NÃO</option>
+                    <option value="N/A">N/A</option>
+                    <option value="vandalizado">vandalizado</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="ModeloGradil">MODELO CADEADO GRADIL:</label>
+                <input type="text" id="ModeloGradil" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="vandalizado">SITE VANDALIZADO:</label>
+                <select id="vandalizado" class="form-control" required>
+                    <option value="SIM">SIM</option>
+                    <option value="NAO">NÃO</option>
+                </select>
+            </div>
+            <div id="gabinetesContainer">
+                <div class="gabinete">
+                    <div class="form-group">
+                        <label for="gabinete1">INFORMAR GABINETE - 01:</label>
+                        <select id="gabinete1" class="form-control" required>
+                            <option value="DELTA">DELTA</option>
+                            <option value="DELTA ORION">DELTA ORION</option>
+                            <option value="DELTA TX">DELTA TX</option>
+                            <option value="ELTEK">ELTEK</option>
+                            <option value="ELTEK FULL TX">ELTEK FULL TX</option>
+                            <option value="EMERSON">EMERSON</option>
+                            <option value="EMERSON TX">EMERSON TX</option>
+                            <option value="PHB">PHB</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="retificadores1">QUANTIDADE DE RETIFICADORES POR GABINETE-FCC:</label>
+                        <input type="number" id="retificadores1" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="baterias1">QUANTIDADE DE BATERIAS NO GABINETE-FCC:</label>
+                        <input type="number" id="baterias1" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="siteBateria1">SITE COM BATERIA:</label>
+                        <select id="siteBateria1" class="form-control" required>
+                            <option value="SIM">SIM</option>
+                            <option value="NAO">NÃO</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="semAutonomia1">
+                        <label class="form-check-label" for="semAutonomia1">SEM AUTONOMIA</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="infoBateria1">INFORMAÇÕES DA BATERIA:</label>
+                        <select id="infoBateria1" class="form-control" required>
+                            <option value="EP TELECOM">EP TELECOM</option>
+                            <option value="HUAWEI">HUAWEI</option>
+                            <option value="MOURA">MOURA</option>
+                            <option value="NEWMAX">NEWMAX</option>
+                            <option value="UNIPOWER">UNIPOWER</option>
+                            <option value="ZTE">ZTE</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantidadeBancos1">QUANTIDADE DE BANCOS:</label>
+                        <input type="number" id="quantidadeBancos1" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="capacidade1">CAPACIDADE:</label>
+                        <input type="text" id="capacidade1" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="volts1">VOLTS:</label>
+                        <select id="volts1" class="form-control" required>
+                            <option value="2 V">2 V</option>
+                            <option value="12 V">12 V</option>
+                            <option value="24 V">24 V</option>
+                            <option value="48 V">48 V</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="elemento1">ELEMENTO:</label>
+                        <input type="text" id="elemento1" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="consumoFonte1">CONSUMO FONTE:</label>
+                        <input type="text" id="consumoFonte1" class="form-control" required>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-secondary btn-block" onclick="adicionarGabinete()">Adicionar Gabinete</button>
+            <div class="form-group">
+                <label for="siteGPON">SITE POSSUI REDE GPON:</label>
+                <select id="siteGPON" class="form-control" required>
+                    <option value="SIM">SIM</option>
+                    <option value="NAO">NÃO</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="zeladoria">NECESSÁRIO ZELADORIA:</label>
+                <select id="zeladoria" class="form-control" required>
+                    <option value="CAPINAR">CAPINAR</option>
+                    <option value="EQUIPAMENTOS">EQUIPAMENTOS</option>
+                    <option value="NÃO PRECISA">NÃO PRECISA</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="estadoPortas">ESTADO DAS PORTAS DOS GABINETES:</label>
+                <select id="estadoPortas" class="form-control" required>
+                    <option value="BOAS CONDIÇÕES">BOAS CONDIÇÕES</option>
+                    <option value="PRECISA DE MANUTENÇÃO">PRECISA DE MANUTENÇÃO</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="portaGabinete">INFORMAR A PORTA DE QUAL GABINETE:</label>
+                <input type="text" id="portaGabinete" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="posteInterno">EXISTÊNCIA POSTE INTERNO:</label>
+                <select id="posteInterno" class="form-control" required>
+                    <option value="SIM">SIM</option>
+                    <option value="NAO">NÃO</option>
+                    <option value="PRECISA DE MANUTENÇÃO">PRECISA DE MANUTENÇÃO</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="iluminacao">EXISTÊNCIA ILUMINAÇÃO INTERNA-EXTERNA:</label>
+                <select id="iluminacao" class="form-control" required>
+                    <option value="SIM">SIM</option>
+                    <option value="NAO">NÃO</option>
+                    <option value="PRECISA DE MANUTENÇÃO">PRECISA DE MANUTENÇÃO</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="falhaAtividade">FALHA DA ATIVIDADE:</label>
+                <input type="text" id="falhaAtividade" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="causaEncontrada">CAUSA ENCONTRADA:</label>
+                <textarea id="causaEncontrada" class="form-control" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="acaoRealizada">AÇÃO REALIZADA:</label>
+                <textarea id="acaoRealizada" class="form-control" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="pendencias">PENDÊNCIAS:</label>
+                <textarea id="pendencias" class="form-control" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="amiPendencia">AMI DA PENDENCIA:</label>
+                <input type="text" id="amiPendencia" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="testadoCom">TESTADO COM:</label>
+                <input type="text" id="testadoCom" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="obs">OBS:</label>
+                <textarea id="obs" class="form-control" rows="4" required></textarea>
+            </div>
+            <div id="resultado" class="mt-4"></div>
+            <button type="button" class="btn btn-primary btn-block" onclick="gerarRelatorio()">
+                <i class="fa fa-file-text"></i> Gerar Relatório
+            </button>
+            <button type="button" class="btn btn-success btn-block" onclick="enviarRelatorio()">
+                <i class="fa fa-whatsapp"></i> Enviar Relatório
+            </button>
+        </form>
+        
+        <footer class="text-center mt-5">
+            <p class="text-muted">
+                Thalyson Silva - NOC - STTE - 
+                <a href="mailto:thalyson.silva.pa@stte.com.br" class="text-primary">thalyson.silva.pa@stte.com.br</a>
+            </p>
+        </footer>
+    </div>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- jQuery UI -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</body>
+</html>
