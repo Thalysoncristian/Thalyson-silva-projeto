@@ -76,6 +76,21 @@ function removerGabinete(numero) {
     gabineteDiv.remove();
 }
 
+// Função para mostrar ou esconder o modelo do cadeado da entrada do site
+function mostrarModeloCadeadoEntrada() {
+    const cadeadoEntrada = document.getElementById('cadeado').value;
+    const modeloCadeadoEntradaGroup = document.getElementById('modeloCadeadoEntradaGroup');
+    modeloCadeadoEntradaGroup.style.display = (cadeadoEntrada === 'SIM') ? 'block' : 'none';
+}
+
+// Função para mostrar ou esconder o modelo do cadeado do gradil
+function mostrarModeloCadeadoGradil() {
+    const gradilCadeado = document.getElementById('gradilCadeado').value;
+    const modeloCadeadoGradilGroup = document.getElementById('modeloCadeadoGradilGroup');
+    modeloCadeadoGradilGroup.style.display = (gradilCadeado === 'SIM') ? 'block' : 'none';
+}
+
+
 // Função para gerar o relatório
 function gerarRelatorio() {
     const relatorio = {
@@ -89,11 +104,11 @@ function gerarRelatorio() {
         dataEntradaSite: document.getElementById('dataEntradaSite').value,
         dataSaidaSite: document.getElementById('dataSaidaSite').value,
         quemAcionou: document.getElementById('quemAcionou').value.toUpperCase(),
-        cadeado: document.getElementById('cadeado').value.toUpperCase(),
-        modeloCadeado: document.getElementById('modeloCadeado').value.toUpperCase(),
-        ModeloGradil: document.getElementById('ModeloGradil').value.toUpperCase(),
+        cadeado: document.getElementById('cadeado').value,
+        modeloCadeadoEntrada: document.getElementById('modeloCadeadoEntrada').value || '',
+        gradilCadeado: document.getElementById('gradilCadeado').value,
+        modeloCadeadoGradil: document.getElementById('modeloCadeadoGradil').value || '',
         vandalizado: document.getElementById('vandalizado').value.toUpperCase(),
-        Gradilcadeado: document.getElementById('Gradilcadeado').value.toUpperCase(),
         siteGPON: document.getElementById('siteGPON').value.toUpperCase(),
         zeladoria: document.getElementById('zeladoria').value.toUpperCase(),
         estadoPortas: document.getElementById('estadoPortas').value.toUpperCase(),
@@ -129,7 +144,6 @@ function gerarRelatorio() {
     }
 
     let resultado = `
-                         *RELATORIO DE ATENDIMENTO STTE* ${relatorio.site}
 *SITE:* ${relatorio.site}
 *AMI:* ${relatorio.ami}
 *NOME DO TÉCNICO:* ${relatorio.tecnico}
@@ -140,17 +154,17 @@ function gerarRelatorio() {
 *DATA HORA ENTRADA SITE:* ${relatorio.dataEntradaSite}
 *DATA HORA SAÍDA SITE:* ${relatorio.dataSaidaSite}
 *QUEM ACIONOU:* ${relatorio.quemAcionou}
-*SITE POSSUI CADEADO:* ${relatorio.cadeado}
-*MODELO DO CADEADO:* ${relatorio.modeloCadeado}
-*GRADIL POSSUI CADEADO:* ${relatorio.Gradilcadeado}
-*MODELO CADEADO GRADIL:* ${relatorio.ModeloGradil}
-*SITE VANDALIZADO:* ${relatorio.vandalizado}`;
-
+*ENTRADA SITE POSSUI CADEADO:* ${relatorio.cadeado === 'NAO' ? 'SITE SEM CADEADO' : relatorio.cadeado === 'VANDALIZADO' ? 'CADEADO VANDALIZADO' : 'SIM'}
+*MODELO DO CADEADO ENTRADA SITE:* ${relatorio.modeloCadeadoEntrada}
+*GRADIL POSSUI CADEADO:* ${relatorio.gradilCadeado === 'NAO' ? 'SITE SEM CADEADO' : relatorio.gradilCadeado === 'VANDALIZADO' ? 'CADEADO VANDALIZADO' : 'SIM'}
+*MODELO DO CADEADO GRADIL:* ${relatorio.modeloCadeadoGradil}
+*SITE VANDALIZADO:* ${relatorio.vandalizado}
+`;
     relatorio.gabinetes.forEach((gabinete, index) => {
         resultado += `
-*INFORMAR GABINETE - ${index + 1}:* ${gabinete.tipo}
-*QUANTIDADE DE RETIFICADORES POR GABINETE-FCC:* ${gabinete.retificadores}
-*QUANTIDADE DE BATERIAS NO GABINETE-FCC:* ${gabinete.baterias}
+*GABINETE ${index + 1}:* ${gabinete.tipo}
+*QUANTIDADE DE RETIFICADORES:* ${gabinete.retificadores}
+*QUANTIDADE DE BATERIAS:* ${gabinete.baterias}
 *SITE COM BATERIA:* ${gabinete.siteBateria}
 *SEM AUTONOMIA:* ${gabinete.semAutonomia}
 *INFORMAÇÕES DA BATERIA:* ${gabinete.infoBateria}
@@ -158,9 +172,9 @@ function gerarRelatorio() {
 *CAPACIDADE:* ${gabinete.capacidade}
 *VOLTS:* ${gabinete.volts}
 *ELEMENTO:* ${gabinete.elemento}
-*CONSUMO FONTE:* ${gabinete.consumoFonte}`;
+*CONSUMO FONTE:* ${gabinete.consumoFonte}
+        `;
     });
-
     resultado += `
 *SITE POSSUI REDE GPON:* ${relatorio.siteGPON}
 *NECESSÁRIO ZELADORIA:* ${relatorio.zeladoria}
@@ -172,9 +186,10 @@ function gerarRelatorio() {
 *CAUSA ENCONTRADA:* ${relatorio.causaEncontrada}
 *AÇÃO REALIZADA:* ${relatorio.acaoRealizada}
 *PENDÊNCIAS:* ${relatorio.pendencias}
-*AMI DA PENDENCIA:* ${relatorio.amiPendencia}
+*AMI DA PENDÊNCIA:* ${relatorio.amiPendencia}
 *TESTADO COM:* ${relatorio.testadoCom}
-*OBS:* ${relatorio.obs}`;
+*OBSERVAÇÕES:* ${relatorio.obs}
+    `;
 
     document.getElementById('resultado').textContent = resultado;
 }

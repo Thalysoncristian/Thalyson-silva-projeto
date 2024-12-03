@@ -130,7 +130,7 @@
     <div class="container mt-5">
         <div class="text-center mb-4">
             <img src="https://gms.stte.com.br/gms_rno/images/logo.jpg" alt="STTE Logo" class="img-fluid rounded" style="max-width: 150px;">
-            <h1 class="h3 text-primary font-weight-bold mt-3">STTE RELATÓRIO TÉCNICO</h1>
+            <h1 class="display-4 text-primary mt-3">STTE Relatório Técnico</h1>
         </div>
         <form id="relatorioForm">
             <div class="form-group">
@@ -183,30 +183,35 @@
                 <label for="quemAcionou">QUEM ACIONOU:</label>
                 <input type="text" id="quemAcionou" class="form-control" required>
             </div>
+            
             <div class="form-group">
-                <label for="cadeado">SITE POSSUI CADEADO:</label>
-                <select id="cadeado" class="form-control" required>
+                <label for="cadeado">ENTRADA SITE POSSUI CADEADO:</label>
+                <select id="cadeado" class="form-control" onchange="mostrarModeloCadeadoEntrada()" required>
                     <option value="SIM">SIM</option>
                     <option value="NAO">NÃO</option>
+                    <option value="VANDALIZADO">VANDALIZADO</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label for="modeloCadeado">MODELO DO CADEADO ENTRADA DO SITE:</label>
-                <input type="text" id="modeloCadeado" class="form-control">
+
+            <div class="form-group" id="modeloCadeadoEntradaGroup" style="display: none;">
+                <label for="modeloCadeadoEntrada">MODELO DO CADEADO ENTRADA SITE:</label>
+                <input type="text" id="modeloCadeadoEntrada" class="form-control">
             </div>
+
             <div class="form-group">
-                <label for="Gradilcadeado">GRADIL POSSUI CADEADO:</label>
-                <select id="Gradilcadeado" class="form-control">
+                <label for="gradilCadeado">GRADIL POSSUI CADEADO:</label>
+                <select id="gradilCadeado" class="form-control" onchange="mostrarModeloCadeadoGradil()" required>
                     <option value="SIM">SIM</option>
                     <option value="NAO">NÃO</option>
-                    <option value="N/A">N/A</option>
-                    <option value="vandalizado">vandalizado</option>
+                    <option value="VANDALIZADO">VANDALIZADO</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label for="ModeloGradil">MODELO CADEADO GRADIL:</label>
-                <input type="text" id="ModeloGradil" class="form-control" required>
+            
+            <div class="form-group" id="modeloCadeadoGradilGroup" style="display: none;">
+                <label for="modeloCadeadoGradil">MODELO DO CADEADO GRADIL:</label>
+                <input type="text" id="modeloCadeadoGradil" class="form-control">
             </div>
+
             <div class="form-group">
                 <label for="vandalizado">SITE VANDALIZADO:</label>
                 <select id="vandalizado" class="form-control" required>
