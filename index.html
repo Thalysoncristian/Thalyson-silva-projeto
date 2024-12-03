@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="X-Compatible" content="IE=edge,chrome=1">
     <title>STTE Relatório Técnico</title>
     <meta name="description" content="">
     <meta name="author" content="">
@@ -12,8 +12,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="bootstrap/css/style.css">
     <style>
         /* Estilos CSS */
         body {
@@ -34,9 +32,10 @@
         h1 {
             text-transform: uppercase;
             text-align: center;
-            color: #206ab5;
             margin-bottom: 15px;
-            font-size: 1.5em;
+            font-size: 1.5em; /* Ajuste o tamanho conforme necessário */
+            font-weight: bold; /* Deixa o texto em negrito */
+            color: #000000; /* Define a cor preta */
         }
 
         label {
@@ -130,7 +129,7 @@
     <div class="container mt-5">
         <div class="text-center mb-4">
             <img src="https://gms.stte.com.br/gms_rno/images/logo.jpg" alt="STTE Logo" class="img-fluid rounded" style="max-width: 150px;">
-            <h1 class="display-4 text-primary mt-3">STTE Relatório Técnico</h1>
+            <h1 class="mt-3">STTE Relatório Técnico</h1>
         </div>
         <form id="relatorioForm">
             <div class="form-group">
@@ -148,6 +147,7 @@
             <div class="form-group">
                 <label for="supervisor">NOME DO SUPERVISOR:</label>
                 <select id="supervisor" class="form-control" required>
+                    <option value="">Selecione...</option>
                     <option value="ANTONIO CLEMILTON">ANTONIO CLEMILTON</option>
                     <option value="JEANETTE KRITSCH">JEANETTE KRITSCH</option>
                     <option value="JOAO CELIO">JOAO CELIO</option>
@@ -159,6 +159,7 @@
             <div class="form-group">
                 <label for="coordenador">COORDENADOR:</label>
                 <select id="coordenador" class="form-control" required>
+                    <option value="">Selecione...</option>
                     <option value="DONAYTT MEDEIROS">DONAYTT MEDEIROS</option>
                     <option value="JOÃO SÁ">JOÃO SÁ</option>
                 </select>
@@ -183,38 +184,36 @@
                 <label for="quemAcionou">QUEM ACIONOU:</label>
                 <input type="text" id="quemAcionou" class="form-control" required>
             </div>
-            
             <div class="form-group">
                 <label for="cadeado">ENTRADA SITE POSSUI CADEADO:</label>
                 <select id="cadeado" class="form-control" onchange="mostrarModeloCadeadoEntrada()" required>
+                    <option value="">Selecione...</option>
                     <option value="SIM">SIM</option>
                     <option value="NAO">NÃO</option>
                     <option value="VANDALIZADO">VANDALIZADO</option>
                 </select>
             </div>
-
             <div class="form-group" id="modeloCadeadoEntradaGroup" style="display: none;">
                 <label for="modeloCadeadoEntrada">MODELO DO CADEADO ENTRADA SITE:</label>
                 <input type="text" id="modeloCadeadoEntrada" class="form-control">
             </div>
-
             <div class="form-group">
                 <label for="gradilCadeado">GRADIL POSSUI CADEADO:</label>
                 <select id="gradilCadeado" class="form-control" onchange="mostrarModeloCadeadoGradil()" required>
+                    <option value="">Selecione...</option>
                     <option value="SIM">SIM</option>
                     <option value="NAO">NÃO</option>
                     <option value="VANDALIZADO">VANDALIZADO</option>
                 </select>
             </div>
-            
             <div class="form-group" id="modeloCadeadoGradilGroup" style="display: none;">
                 <label for="modeloCadeadoGradil">MODELO DO CADEADO GRADIL:</label>
                 <input type="text" id="modeloCadeadoGradil" class="form-control">
             </div>
-
             <div class="form-group">
                 <label for="vandalizado">SITE VANDALIZADO:</label>
                 <select id="vandalizado" class="form-control" required>
+                    <option value="">Selecione...</option>
                     <option value="SIM">SIM</option>
                     <option value="NAO">NÃO</option>
                 </select>
@@ -224,6 +223,7 @@
                     <div class="form-group">
                         <label for="gabinete1">INFORMAR GABINETE - 01:</label>
                         <select id="gabinete1" class="form-control" required>
+                            <option value="">Selecione...</option>
                             <option value="DELTA">DELTA</option>
                             <option value="DELTA ORION">DELTA ORION</option>
                             <option value="DELTA TX">DELTA TX</option>
@@ -235,59 +235,72 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="retificadores1">QUANTIDADE DE RETIFICADORES POR GABINETE-FCC:</label>
+                        <label for="retificadores1">QUANTIDADE DE RETIFICADORES NO GABINETE 1-FCC:</label>
                         <input type="number" id="retificadores1" class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <label for="baterias1">QUANTIDADE DE BATERIAS NO GABINETE-FCC:</label>
-                        <input type="number" id="baterias1" class="form-control" required>
-                    </div>
-                    <div class="form-group">
                         <label for="siteBateria1">SITE COM BATERIA:</label>
-                        <select id="siteBateria1" class="form-control" required>
+                        <select id="siteBateria1" class="form-control" onchange="mostrarBateriaInfo(1)" required>
+                            <option value="">Selecione...</option>
                             <option value="SIM">SIM</option>
                             <option value="NAO">NÃO</option>
                         </select>
                     </div>
-                    <div class="form-group form-check">
-                        <input type="checkbox" class="form-check-input" id="semAutonomia1">
-                        <label class="form-check-label" for="semAutonomia1">SEM AUTONOMIA</label>
-                    </div>
-                    <div class="form-group">
-                        <label for="infoBateria1">INFORMAÇÕES DA BATERIA:</label>
-                        <select id="infoBateria1" class="form-control" required>
-                            <option value="EP TELECOM">EP TELECOM</option>
-                            <option value="HUAWEI">HUAWEI</option>
-                            <option value="MOURA">MOURA</option>
-                            <option value="NEWMAX">NEWMAX</option>
-                            <option value="UNIPOWER">UNIPOWER</option>
-                            <option value="ZTE">ZTE</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="quantidadeBancos1">QUANTIDADE DE BANCOS:</label>
-                        <input type="number" id="quantidadeBancos1" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="capacidade1">CAPACIDADE:</label>
-                        <input type="text" id="capacidade1" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="volts1">VOLTS:</label>
-                        <select id="volts1" class="form-control" required>
-                            <option value="2 V">2 V</option>
-                            <option value="12 V">12 V</option>
-                            <option value="24 V">24 V</option>
-                            <option value="48 V">48 V</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="elemento1">ELEMENTO:</label>
-                        <input type="text" id="elemento1" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="consumoFonte1">CONSUMO FONTE:</label>
-                        <input type="text" id="consumoFonte1" class="form-control" required>
+                    <div class="bateria-info" id="bateriaInfo1" style="display: none;">
+                        <div class="form-group">
+                            <label for="baterias1">QUANTIDADE DE BATERIAS NO GABINETE-FCC 1:</label>
+                            <input type="number" id="baterias1" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="infoBateria1">INFORMAÇÕES DA BATERIA:</label>
+                            <select id="infoBateria1" class="form-control">
+                                <option value="">Selecione...</option>
+                                <option value="EP TELECOM">EP TELECOM</option>
+                                <option value="HUAWEI">HUAWEI</option>
+                                <option value="MOURA">MOURA</option>
+                                <option value="NEWMAX">NEWMAX</option>
+                                <option value="UNIPOWER">UNIPOWER</option>
+                                <option value="ZTE">ZTE</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="quantidadeBancos1">QUANTIDADE DE BANCOS:</label>
+                            <input type="number" id="quantidadeBancos1" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="capacidade1">CAPACIDADE:</label>
+                            <input type="text" id="capacidade1" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="volts1">VOLTS:</label>
+                            <select id="volts1" class="form-control">
+                                <option value="">Selecione...</option>
+                                <option value="2 V">2 V</option>
+                                <option value="12 V">12 V</option>
+                                <option value="24 V">24 V</option>
+                                <option value="48 V">48 V</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="elemento1">ELEMENTO:</label>
+                            <input type="number" id="elemento1" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="consumoFonte1">CONSUMO FONTE:</label>
+                            <input type="number" id="consumoFonte1" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="autonomia1">AUTONOMIA:</label>
+                            <select id="autonomia1" class="form-control" onchange="mostrarTempoAutonomia(1)" required>
+                                <option value="">Selecione...</option>
+                                <option value="SIM">SIM</option>
+                                <option value="NAO">NÃO</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="tempoAutonomiaGroup1" style="display: none;">
+                            <label for="tempoAutonomia1">TEMPO DE AUTONOMIA *opcional*:</label>
+                            <input type="text" id="tempoAutonomia1" class="form-control">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -295,6 +308,7 @@
             <div class="form-group">
                 <label for="siteGPON">SITE POSSUI REDE GPON:</label>
                 <select id="siteGPON" class="form-control" required>
+                    <option value="">Selecione...</option>
                     <option value="SIM">SIM</option>
                     <option value="NAO">NÃO</option>
                 </select>
@@ -302,6 +316,7 @@
             <div class="form-group">
                 <label for="zeladoria">NECESSÁRIO ZELADORIA:</label>
                 <select id="zeladoria" class="form-control" required>
+                    <option value="">Selecione...</option>
                     <option value="CAPINAR">CAPINAR</option>
                     <option value="EQUIPAMENTOS">EQUIPAMENTOS</option>
                     <option value="NÃO PRECISA">NÃO PRECISA</option>
@@ -310,6 +325,7 @@
             <div class="form-group">
                 <label for="estadoPortas">ESTADO DAS PORTAS DOS GABINETES:</label>
                 <select id="estadoPortas" class="form-control" required>
+                    <option value="">Selecione...</option>
                     <option value="BOAS CONDIÇÕES">BOAS CONDIÇÕES</option>
                     <option value="PRECISA DE MANUTENÇÃO">PRECISA DE MANUTENÇÃO</option>
                 </select>
@@ -321,6 +337,7 @@
             <div class="form-group">
                 <label for="posteInterno">EXISTÊNCIA POSTE INTERNO:</label>
                 <select id="posteInterno" class="form-control" required>
+                    <option value="">Selecione...</option>
                     <option value="SIM">SIM</option>
                     <option value="NAO">NÃO</option>
                     <option value="PRECISA DE MANUTENÇÃO">PRECISA DE MANUTENÇÃO</option>
@@ -329,6 +346,7 @@
             <div class="form-group">
                 <label for="iluminacao">EXISTÊNCIA ILUMINAÇÃO INTERNA-EXTERNA:</label>
                 <select id="iluminacao" class="form-control" required>
+                    <option value="">Selecione...</option>
                     <option value="SIM">SIM</option>
                     <option value="NAO">NÃO</option>
                     <option value="PRECISA DE MANUTENÇÃO">PRECISA DE MANUTENÇÃO</option>
@@ -370,7 +388,7 @@
                 <i class="fa fa-whatsapp"></i> Enviar Relatório
             </button>
         </form>
-        
+
         <footer class="text-center mt-5">
             <p class="text-muted">
                 Thalyson Silva - NOC - STTE - 
@@ -387,4 +405,5 @@
     <!-- Custom JS -->
     <script src="script.js"></script>
 </body>
+
 </html>
