@@ -7,9 +7,15 @@ function adicionarGabinete() {
     gabineteDiv.className = 'gabinete';
     gabineteDiv.id = `gabineteDiv${numeroGabinetes}`;
     gabineteDiv.innerHTML = `
-        <div class="form-group">
+        <div class="d-flex justify-content-between align-items-center">
             <label for="gabinete${numeroGabinetes}">INFORMAR GABINETE - ${numeroGabinetes}:</label>
+            <button type="button" class="btn btn-danger btn-sm" onclick="removerGabinete(${numeroGabinetes})">
+                Remover
+            </button>
+        </div>
+        <div class="form-group">
             <select id="gabinete${numeroGabinetes}" class="form-control" required>
+                <option value="">Selecione...</option>
                 <option value="DELTA">DELTA</option>
                 <option value="DELTA ORION">DELTA ORION</option>
                 <option value="DELTA TX">DELTA TX</option>
@@ -27,6 +33,7 @@ function adicionarGabinete() {
         <div class="form-group">
             <label for="siteBateria${numeroGabinetes}">SITE COM BATERIA:</label>
             <select id="siteBateria${numeroGabinetes}" class="form-control" onchange="mostrarBateriaInfo(${numeroGabinetes})" required>
+                <option value="">Selecione...</option>
                 <option value="SIM">SIM</option>
                 <option value="NAO">NÃO</option>
             </select>
@@ -39,6 +46,7 @@ function adicionarGabinete() {
             <div class="form-group">
                 <label for="infoBateria${numeroGabinetes}">INFORMAÇÕES DA BATERIA:</label>
                 <select id="infoBateria${numeroGabinetes}" class="form-control">
+                    <option value="">Selecione...</option>
                     <option value="EP TELECOM">EP TELECOM</option>
                     <option value="HUAWEI">HUAWEI</option>
                     <option value="MOURA">MOURA</option>
@@ -58,6 +66,7 @@ function adicionarGabinete() {
             <div class="form-group">
                 <label for="volts${numeroGabinetes}">VOLTS:</label>
                 <select id="volts${numeroGabinetes}" class="form-control">
+                    <option value="">Selecione...</option>
                     <option value="2 V">2 V</option>
                     <option value="12 V">12 V</option>
                     <option value="24 V">24 V</option>
@@ -75,6 +84,7 @@ function adicionarGabinete() {
             <div class="form-group">
                 <label for="autonomia${numeroGabinetes}">AUTONOMIA:</label>
                 <select id="autonomia${numeroGabinetes}" class="form-control" onchange="mostrarTempoAutonomia(${numeroGabinetes})" required>
+                    <option value="">Selecione...</option>
                     <option value="SIM">SIM</option>
                     <option value="NAO">NÃO</option>
                 </select>
@@ -87,7 +97,29 @@ function adicionarGabinete() {
     `;
     gabinetesContainer.appendChild(gabineteDiv);
 }
+// Função para remover um gabinete
+function removerGabinete(numeroGabinetes) {
+    const gabineteDiv = document.getElementById(`gabineteDiv${numeroGabinetes}`);
+    if (gabineteDiv) {
+        gabineteDiv.remove();
+    }
+}
+// Ajustes em exibição
+function mostrarBateriaInfo(numeroGabinetes) {
+    const siteBateria = document.getElementById(`siteBateria${numeroGabinetes}`).value;
+    const bateriaInfo = document.getElementById(`bateriaInfo${numeroGabinetes}`);
+    bateriaInfo.style.display = siteBateria === 'SIM' ? 'block' : 'none';
+}
 
+// Relatório mantém espaços entre gabinetes
+function gerarRelatorio() {
+    let resultado = `...`; // Continue com o script de geração do relatório, ajustando espaçamentos conforme mostrado.
+}
+function mostrarTempoAutonomia(numeroGabinetes) {
+    const autonomia = document.getElementById(`autonomia${numeroGabinetes}`).value;
+    const tempoAutonomiaGroup = document.getElementById(`tempoAutonomiaGroup${numeroGabinetes}`);
+    tempoAutonomiaGroup.style.display = autonomia === 'SIM' ? 'block' : 'none';
+}
 // Função para mostrar ou esconder informações da bateria
 function mostrarBateriaInfo(numeroGabinetes) {
     const siteBateria = document.getElementById(`siteBateria${numeroGabinetes}`).value;
@@ -129,15 +161,15 @@ function gerarRelatorio() {
         dataEntradaSite: document.getElementById('dataEntradaSite').value,
         dataSaidaSite: document.getElementById('dataSaidaSite').value,
         quemAcionou: document.getElementById('quemAcionou').value.toUpperCase(),
-        cadeado: document.getElementById('cadeado').value,
-        modeloCadeadoEntrada: document.getElementById('modeloCadeadoEntrada').value || '',
-        gradilCadeado: document.getElementById('gradilCadeado').value,
-        modeloCadeadoGradil: document.getElementById('modeloCadeadoGradil').value || '',
+        cadeado: document.getElementById('cadeado').value.toUpperCase(),
+        modeloCadeadoEntrada: document.getElementById('modeloCadeadoEntrada').value.toUpperCase() || '',
+        gradilCadeado: document.getElementById('gradilCadeado').value.toUpperCase(),
+        modeloCadeadoGradil: document.getElementById('modeloCadeadoGradil').value.toUpperCase() || '',
         vandalizado: document.getElementById('vandalizado').value.toUpperCase(),
         siteGPON: document.getElementById('siteGPON').value.toUpperCase(),
         zeladoria: document.getElementById('zeladoria').value.toUpperCase(),
         estadoPortas: document.getElementById('estadoPortas').value.toUpperCase(),
-        portaGabinete: document.getElementById('portaGabinete').value.toUpperCase(),
+        portaGabinete: document.getElementById('portaGabinete').value.toUpperCase() || '',
         posteInterno: document.getElementById('posteInterno').value.toUpperCase(),
         iluminacao: document.getElementById('iluminacao').value.toUpperCase(),
         falhaAtividade: document.getElementById('falhaAtividade').value.toUpperCase(),
@@ -150,25 +182,45 @@ function gerarRelatorio() {
         gabinetes: []
     };
 
+    // Coleta informações dos gabinetes
     const gabinetes = document.getElementsByClassName('gabinete');
     for (let i = 0; i < gabinetes.length; i++) {
         const gabinete = {
             tipo: document.getElementById(`gabinete${i + 1}`).value.toUpperCase(),
             retificadores: document.getElementById(`retificadores${i + 1}`).value,
-            baterias: document.getElementById(`baterias${i + 1}`).value,
             siteBateria: document.getElementById(`siteBateria${i + 1}`).value.toUpperCase(),
-            semAutonomia: document.getElementById(`autonomia${i + 1}`).value.toUpperCase(),
-            infoBateria: document.getElementById(`infoBateria${i + 1}`).value.toUpperCase(),
-            quantidadeBancos: document.getElementById(`quantidadeBancos${i + 1}`).value,
-            capacidade: document.getElementById(`capacidade${i + 1}`).value.toUpperCase(),
-            volts: document.getElementById(`volts${i + 1}`).value.toUpperCase(),
-            elemento: document.getElementById(`elemento${i + 1}`).value,
-            consumoFonte: document.getElementById(`consumoFonte${i + 1}`).value,
-            tempoAutonomia: document.getElementById(`tempoAutonomia${i + 1}`).value || ''
+            baterias: document.getElementById(`siteBateria${i + 1}`).value === 'SIM'
+                ? document.getElementById(`baterias${i + 1}`).value.toUpperCase()
+                : null,
+            infoBateria: document.getElementById(`siteBateria${i + 1}`).value === 'SIM'
+                ? document.getElementById(`infoBateria${i + 1}`).value.toUpperCase()
+                : null,
+            quantidadeBancos: document.getElementById(`siteBateria${i + 1}`).value === 'SIM'
+                ? document.getElementById(`quantidadeBancos${i + 1}`).value.toUpperCase()
+                : null,
+            capacidade: document.getElementById(`siteBateria${i + 1}`).value === 'SIM'
+                ? document.getElementById(`capacidade${i + 1}`).value.toUpperCase()
+                : null,
+            volts: document.getElementById(`siteBateria${i + 1}`).value === 'SIM'
+                ? document.getElementById(`volts${i + 1}`).value.toUpperCase()
+                : null,
+            elemento: document.getElementById(`siteBateria${i + 1}`).value === 'SIM'
+                ? document.getElementById(`elemento${i + 1}`).value
+                : null,
+            consumoFonte: document.getElementById(`siteBateria${i + 1}`).value === 'SIM'
+                ? document.getElementById(`consumoFonte${i + 1}`).value
+                : null,
+            autonomia: document.getElementById(`siteBateria${i + 1}`).value === 'SIM'
+                ? document.getElementById(`autonomia${i + 1}`).value.toUpperCase()
+                : null,
+            tempoAutonomia: document.getElementById(`autonomia${i + 1}`).value === 'SIM'
+                ? document.getElementById(`tempoAutonomia${i + 1}`).value.toUpperCase()
+                : null
         };
         relatorio.gabinetes.push(gabinete);
     }
 
+    // Montagem do relatório
     let resultado = `
 *SITE:* ${relatorio.site}
 *AMI:* ${relatorio.ami}
@@ -180,19 +232,19 @@ function gerarRelatorio() {
 *DATA HORA ENTRADA SITE:* ${relatorio.dataEntradaSite}
 *DATA HORA SAÍDA SITE:* ${relatorio.dataSaidaSite}
 *QUEM ACIONOU:* ${relatorio.quemAcionou}
-*ENTRADA SITE POSSUI CADEADO:* ${relatorio.cadeado === 'NAO' ? 'SITE SEM CADEADO' : relatorio.cadeado === 'VANDALIZADO' ? 'CADEADO VANDALIZADO' : 'SIM'}
-*MODELO DO CADEADO ENTRADA SITE:* ${relatorio.modeloCadeadoEntrada}
-*GRADIL POSSUI CADEADO:* ${relatorio.gradilCadeado === 'NAO' ? 'SITE SEM CADEADO' : relatorio.gradilCadeado === 'VANDALIZADO' ? 'CADEADO VANDALIZADO' : 'SIM'}
-*MODELO DO CADEADO GRADIL:* ${relatorio.modeloCadeadoGradil}
-*SITE VANDALIZADO:* ${relatorio.vandalizado}
-`;
+*ENTRADA SITE POSSUI CADEADO:* ${relatorio.cadeado}
+${relatorio.cadeado === 'SIM' ? `*MODELO DO CADEADO ENTRADA SITE:* ${relatorio.modeloCadeadoEntrada}` : ''}
+*GRADIL POSSUI CADEADO:* ${relatorio.gradilCadeado}
+${relatorio.gradilCadeado === 'SIM' ? `*MODELO DO CADEADO GRADIL:* ${relatorio.modeloCadeadoGradil}` : ''}
+*SITE VANDALIZADO:* ${relatorio.vandalizado}`;
 
     relatorio.gabinetes.forEach((gabinete, index) => {
         resultado += `
 *GABINETE ${index + 1}:* ${gabinete.tipo}
 *QUANTIDADE DE RETIFICADORES NO GABINETE ${index + 1}-FCC:* ${gabinete.retificadores}
 *SITE COM BATERIA:* ${gabinete.siteBateria}
-${gabinete.siteBateria === 'SIM' ? `
+${gabinete.siteBateria === 'SIM'
+            ? `
 *QUANTIDADE DE BATERIAS NO GABINETE-FCC ${index + 1}:* ${gabinete.baterias}
 *INFORMAÇÕES DA BATERIA:* ${gabinete.infoBateria}
 *QUANTIDADE DE BANCOS:* ${gabinete.quantidadeBancos}
@@ -200,17 +252,15 @@ ${gabinete.siteBateria === 'SIM' ? `
 *VOLTS:* ${gabinete.volts}
 *ELEMENTO:* ${gabinete.elemento}
 *CONSUMO FONTE:* ${gabinete.consumoFonte}
-*AUTONOMIA:* ${gabinete.semAutonomia}
-${gabinete.semAutonomia === 'SIM' ? `*TEMPO DE AUTONOMIA:* ${gabinete.tempoAutonomia}` : '*SITE SEM AUTONOMIA*'}
-` : '*SEM BATERIA NO GABINETE*'}
-`;
+*AUTONOMIA:* ${gabinete.autonomia}
+${gabinete.autonomia === 'SIM' ? `*TEMPO DE AUTONOMIA:* ${gabinete.tempoAutonomia}` : '*SITE SEM AUTONOMIA*'}` : '*SITE SEM AUTONOMIA*'}`;
     });
 
     resultado += `
 *SITE POSSUI REDE GPON:* ${relatorio.siteGPON}
 *NECESSÁRIO ZELADORIA:* ${relatorio.zeladoria}
 *ESTADO DAS PORTAS DOS GABINETES:* ${relatorio.estadoPortas}
-*INFORMAR A PORTA DE QUAL GABINETE:* ${relatorio.portaGabinete}
+${relatorio.estadoPortas === 'PRECISA DE MANUTENÇÃO' ? `*INFORMAR A PORTA DE QUAL GABINETE:* ${relatorio.portaGabinete}` : ''}
 *EXISTÊNCIA POSTE INTERNO:* ${relatorio.posteInterno}
 *EXISTÊNCIA ILUMINAÇÃO INTERNA-EXTERNA:* ${relatorio.iluminacao}
 *FALHA DA ATIVIDADE:* ${relatorio.falhaAtividade}
@@ -219,10 +269,11 @@ ${gabinete.semAutonomia === 'SIM' ? `*TEMPO DE AUTONOMIA:* ${gabinete.tempoAuton
 *PENDÊNCIAS:* ${relatorio.pendencias}
 *AMI DA PENDÊNCIA:* ${relatorio.amiPendencia}
 *TESTADO COM:* ${relatorio.testadoCom}
-*OBSERVAÇÕES:* ${relatorio.obs}
-`;
+*OBSERVAÇÕES:* ${relatorio.obs}`;
 
-    document.getElementById('resultado').textContent = resultado;
+    // Remover linhas vazias
+    resultado = resultado.split('\n').filter(linha => linha.trim() !== '').join('\n');
+    document.getElementById('resultado').textContent = resultado.trim();
 }
 
 
@@ -243,3 +294,18 @@ window.onload = inicializarFormulario;
 
 // Adicionar evento para o botão de adicionar gabinete
 document.getElementById('adicionarGabineteBtn').addEventListener('click', adicionarGabinete);
+
+
+// Função para mostrar ou esconder o campo portaGabinete
+function mostrarPortaGabinete() {
+    const estadoPortas = document.getElementById('estadoPortas').value;
+    const portaGabineteGroup = document.getElementById('portaGabinete-group');
+    portaGabineteGroup.style.display = (estadoPortas === 'PRECISA DE MANUTENÇÃO') ? 'block' : 'none';
+}
+
+// Executa a função ao carregar a página para garantir que o campo está oculto inicialmente
+window.onload = function() {
+    const estadoPortas = document.getElementById('estadoPortas');
+    estadoPortas.value = ""; // Define o valor inicial do select
+    mostrarPortaGabinete();
+};
