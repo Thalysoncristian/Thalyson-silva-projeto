@@ -184,10 +184,16 @@
                 <label for="dataSaidaSite">DATA HORA SAÍDA SITE:</label>
                 <input type="datetime-local" id="dataSaidaSite" class="form-control" required>
             </div>
+            
             <div class="form-group">
                 <label for="quemAcionou">QUEM ACIONOU:</label>
-                <input type="text" id="quemAcionou" class="form-control" required>
+                <select id="quemAcionou" class="form-control" required>
+                    <option value="">Selecione...</option>
+                    <option value="NOC">NOC</option>
+                    <option value="SUPERVISAO">SUPERVISAO</option>
+                </select>
             </div>
+
             <div class="form-group">
                 <label for="cadeado">ENTRADA SITE POSSUI CADEADO:</label>
                 <select id="cadeado" class="form-control" onchange="mostrarModeloCadeadoEntrada()" required>
