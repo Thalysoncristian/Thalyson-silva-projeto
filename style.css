@@ -102,3 +102,27 @@ button#theme-toggle {
     margin: 0 auto 20px;
     width: 200px;
 }
+
+/* Estilos para os botões de controle de fonte */
+.btn-group {
+    display: inline-flex;
+    gap: 5px;
+}
+
+.btn-outline-secondary {
+    width: auto;
+    padding: 5px 10px;
+    background-color: transparent;
+    border: 1px solid #206ab5;
+    color: #206ab5;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #206ab5;
+    color: #fff;
+}
+
+#diminuirFonte, #aumentarFonte {
+    width: auto;
+    margin-top: 0;
+}

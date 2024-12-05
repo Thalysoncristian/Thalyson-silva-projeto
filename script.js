@@ -14,7 +14,7 @@ function adicionarGabinete() {
             </button>
         </div>
         <div class="form-group">
-            <select id="gabinete${numeroGabinetes}" class="form-control" required>
+            <select id="gabinete${numeroGabinetes}" class="form-control">
                 <option value="">Selecione...</option>
                 <option value="DELTA">DELTA</option>
                 <option value="DELTA ORION">DELTA ORION</option>
@@ -28,11 +28,11 @@ function adicionarGabinete() {
         </div>
         <div class="form-group">
             <label for="retificadores${numeroGabinetes}">QUANTIDADE DE RETIFICADORES NO GABINETE ${numeroGabinetes}-FCC:</label>
-            <input type="number" id="retificadores${numeroGabinetes}" class="form-control" required>
+            <input type="number" id="retificadores${numeroGabinetes}" class="form-control">
         </div>
         <div class="form-group">
             <label for="siteBateria${numeroGabinetes}">SITE COM BATERIA:</label>
-            <select id="siteBateria${numeroGabinetes}" class="form-control" onchange="mostrarBateriaInfo(${numeroGabinetes})" required>
+            <select id="siteBateria${numeroGabinetes}" class="form-control" onchange="mostrarBateriaInfo(${numeroGabinetes})">
                 <option value="">Selecione...</option>
                 <option value="SIM">SIM</option>
                 <option value="NAO">NÃO</option>
@@ -83,7 +83,7 @@ function adicionarGabinete() {
             </div>
             <div class="form-group">
                 <label for="autonomia${numeroGabinetes}">AUTONOMIA:</label>
-                <select id="autonomia${numeroGabinetes}" class="form-control" onchange="mostrarTempoAutonomia(${numeroGabinetes})" required>
+                <select id="autonomia${numeroGabinetes}" class="form-control" onchange="mostrarTempoAutonomia(${numeroGabinetes})">
                     <option value="">Selecione...</option>
                     <option value="SIM">SIM</option>
                     <option value="NAO">NÃO</option>
@@ -221,7 +221,28 @@ function gerarRelatorio() {
     }
 
     // Montagem do relatório
+
+    // Função para formatar data e hora
+    function formatarDataHora(data) {
+        if (!data) return '';
+        const d = new Date(data);
+        const dia = String(d.getDate()).padStart(2, '0');
+        const mes = String(d.getMonth() + 1).padStart(2, '0'); 
+        const ano = String(d.getFullYear()).slice(-2);
+        const hora = String(d.getHours()).padStart(2, '0');
+        const minuto = String(d.getMinutes()).padStart(2, '0');
+        return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
+    }
+
+    // Formatando as datas do relatório
+    relatorio.dataAcionamento = formatarDataHora(relatorio.dataAcionamento);
+    relatorio.dataDeslocamento = formatarDataHora(relatorio.dataDeslocamento);
+    relatorio.dataEntradaSite = formatarDataHora(relatorio.dataEntradaSite);
+    relatorio.dataSaidaSite = formatarDataHora(relatorio.dataSaidaSite);
+
     let resultado = `
+                                *INFORME DE ATENDIMENTO TÉCNICO*
+
 *SITE:* ${relatorio.site}
 *AMI:* ${relatorio.ami}
 *NOME DO TÉCNICO:* ${relatorio.tecnico}
@@ -236,7 +257,9 @@ function gerarRelatorio() {
 ${relatorio.cadeado === 'SIM' ? `*MODELO DO CADEADO ENTRADA SITE:* ${relatorio.modeloCadeadoEntrada}` : ''}
 *GRADIL POSSUI CADEADO:* ${relatorio.gradilCadeado}
 ${relatorio.gradilCadeado === 'SIM' ? `*MODELO DO CADEADO GRADIL:* ${relatorio.modeloCadeadoGradil}` : ''}
-*SITE VANDALIZADO:* ${relatorio.vandalizado}`;
+*SITE VANDALIZADO:* ${relatorio.vandalizado}
+
+`;
 
     relatorio.gabinetes.forEach((gabinete, index) => {
         resultado += `
@@ -253,7 +276,9 @@ ${gabinete.siteBateria === 'SIM'
 *ELEMENTO:* ${gabinete.elemento}
 *CONSUMO FONTE:* ${gabinete.consumoFonte}
 *AUTONOMIA:* ${gabinete.autonomia}
-${gabinete.autonomia === 'SIM' ? `*TEMPO DE AUTONOMIA:* ${gabinete.tempoAutonomia}` : '*SITE SEM AUTONOMIA*'}` : '*SITE SEM AUTONOMIA*'}`;
+${gabinete.autonomia === 'SIM' ? `*TEMPO DE AUTONOMIA:* ${gabinete.tempoAutonomia}` : '*SITE SEM AUTONOMIA*'}` : '*SITE SEM AUTONOMIA*'}
+
+`;
     });
 
     resultado += `
@@ -309,3 +334,6 @@ window.onload = function() {
     estadoPortas.value = ""; // Define o valor inicial do select
     mostrarPortaGabinete();
 };
+
+
+
