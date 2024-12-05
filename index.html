@@ -225,13 +225,13 @@
             </div>
             <div class="form-group">
                 <label for="estadoPortas">ESTADO DAS PORTAS DOS GABINETES:</label>
-                <select id="estadoPortas" class="form-control" required>
+                <select id="estadoPortas" class="form-control" onchange="mostrarPortaGabinete()" required>
                     <option value="">Selecione...</option>
                     <option value="BOAS CONDIÇÕES">BOAS CONDIÇÕES</option>
                     <option value="PRECISA DE MANUTENÇÃO">PRECISA DE MANUTENÇÃO</option>
                 </select>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="portaGabinete-group" style="display: none;">
                 <label for="portaGabinete">INFORMAR A PORTA DE QUAL GABINETE:</label>
                 <input type="text" id="portaGabinete" class="form-control" required>
             </div>
@@ -290,6 +290,8 @@
             </button>
         </form>
 
+
+        
         <footer class="text-center mt-5">
             <p class="text-muted">
                 Thalyson Silva - NOC - STTE - 
