@@ -97,150 +97,169 @@ function adicionarGabinete() {
     `;
     gabinetesContainer.appendChild(gabineteDiv);
 }
+
 // Função para remover um gabinete
-function removerGabinete(numeroGabinetes) {
-    const gabineteDiv = document.getElementById(`gabineteDiv${numeroGabinetes}`);
+function removerGabinete(numeroGabinete) {
+    const gabineteDiv = document.getElementById(`gabineteDiv${numeroGabinete}`);
     if (gabineteDiv) {
         gabineteDiv.remove();
+        // Reordenar os IDs dos gabinetes restantes
+        const gabinetes = document.getElementsByClassName('gabinete');
+        for (let i = 0; i < gabinetes.length; i++) {
+            const novoNumero = i + 1;
+            gabinetes[i].id = `gabineteDiv${novoNumero}`;
+            atualizarIdsGabinete(gabinetes[i], novoNumero);
+        }
     }
 }
-// Ajustes em exibição
-function mostrarBateriaInfo(numeroGabinetes) {
-    const siteBateria = document.getElementById(`siteBateria${numeroGabinetes}`).value;
-    const bateriaInfo = document.getElementById(`bateriaInfo${numeroGabinetes}`);
-    bateriaInfo.style.display = siteBateria === 'SIM' ? 'block' : 'none';
+
+// Função auxiliar para atualizar IDs dentro do gabinete
+function atualizarIdsGabinete(gabineteDiv, novoNumero) {
+    const elementos = gabineteDiv.querySelectorAll('[id]');
+    elementos.forEach(elemento => {
+        const idAtual = elemento.id;
+        elemento.id = idAtual.replace(/\d+/, novoNumero);
+    });
+    
+    // Atualizar labels
+    const labels = gabineteDiv.querySelectorAll('label');
+    labels.forEach(label => {
+        label.textContent = label.textContent.replace(/\d+/, novoNumero);
+        if (label.getAttribute('for')) {
+            label.setAttribute('for', label.getAttribute('for').replace(/\d+/, novoNumero));
+        }
+    });
 }
 
-// Relatório mantém espaços entre gabinetes
-function gerarRelatorio() {
-    let resultado = `...`; // Continue com o script de geração do relatório, ajustando espaçamentos conforme mostrado.
-}
-function mostrarTempoAutonomia(numeroGabinetes) {
-    const autonomia = document.getElementById(`autonomia${numeroGabinetes}`).value;
-    const tempoAutonomiaGroup = document.getElementById(`tempoAutonomiaGroup${numeroGabinetes}`);
-    tempoAutonomiaGroup.style.display = autonomia === 'SIM' ? 'block' : 'none';
-}
 // Função para mostrar ou esconder informações da bateria
-function mostrarBateriaInfo(numeroGabinetes) {
-    const siteBateria = document.getElementById(`siteBateria${numeroGabinetes}`).value;
-    const bateriaInfo = document.getElementById(`bateriaInfo${numeroGabinetes}`);
-    bateriaInfo.style.display = (siteBateria === 'SIM') ? 'block' : 'none';
+function mostrarBateriaInfo(numeroGabinete) {
+    const siteBateria = document.getElementById(`siteBateria${numeroGabinete}`);
+    const bateriaInfo = document.getElementById(`bateriaInfo${numeroGabinete}`);
+    if (siteBateria && bateriaInfo) {
+        bateriaInfo.style.display = siteBateria.value === 'SIM' ? 'block' : 'none';
+    }
 }
 
 // Função para mostrar ou esconder o tempo de autonomia
-function mostrarTempoAutonomia(numeroGabinetes) {
-    const autonomia = document.getElementById(`autonomia${numeroGabinetes}`).value;
-    const tempoAutonomiaGroup = document.getElementById(`tempoAutonomiaGroup${numeroGabinetes}`);
-    tempoAutonomiaGroup.style.display = (autonomia === 'SIM') ? 'block' : 'none';
+function mostrarTempoAutonomia(numeroGabinete) {
+    const autonomia = document.getElementById(`autonomia${numeroGabinete}`);
+    const tempoAutonomiaGroup = document.getElementById(`tempoAutonomiaGroup${numeroGabinete}`);
+    if (autonomia && tempoAutonomiaGroup) {
+        tempoAutonomiaGroup.style.display = autonomia.value === 'SIM' ? 'block' : 'none';
+    }
 }
 
 // Função para mostrar ou esconder o modelo do cadeado da entrada do site
 function mostrarModeloCadeadoEntrada() {
-    const cadeadoEntrada = document.getElementById('cadeado').value;
+    const cadeadoEntrada = document.getElementById('cadeado');
     const modeloCadeadoEntradaGroup = document.getElementById('modeloCadeadoEntradaGroup');
-    modeloCadeadoEntradaGroup.style.display = (cadeadoEntrada === 'SIM') ? 'block' : 'none';
+    if (cadeadoEntrada && modeloCadeadoEntradaGroup) {
+        modeloCadeadoEntradaGroup.style.display = cadeadoEntrada.value === 'SIM' ? 'block' : 'none';
+    }
 }
 
 // Função para mostrar ou esconder o modelo do cadeado do gradil
 function mostrarModeloCadeadoGradil() {
-    const gradilCadeado = document.getElementById('gradilCadeado').value;
+    const gradilCadeado = document.getElementById('gradilCadeado');
     const modeloCadeadoGradilGroup = document.getElementById('modeloCadeadoGradilGroup');
-    modeloCadeadoGradilGroup.style.display = (gradilCadeado === 'SIM') ? 'block' : 'none';
+    if (gradilCadeado && modeloCadeadoGradilGroup) {
+        modeloCadeadoGradilGroup.style.display = gradilCadeado.value === 'SIM' ? 'block' : 'none';
+    }
+}
+
+// Função para mostrar ou esconder o campo portaGabinete
+function mostrarPortaGabinete() {
+    const estadoPortas = document.getElementById('estadoPortas');
+    const portaGabineteGroup = document.getElementById('portaGabinete-group');
+    if (estadoPortas && portaGabineteGroup) {
+        portaGabineteGroup.style.display = estadoPortas.value === 'PRECISA DE MANUTENÇÃO' ? 'block' : 'none';
+    }
 }
 
 // Função para gerar o relatório
 function gerarRelatorio() {
-    const relatorio = {
-        site: document.getElementById('site').value.toUpperCase(),
-        ami: document.getElementById('ami').value.toUpperCase(),
-        tecnico: document.getElementById('tecnico').value.toUpperCase(),
-        supervisor: document.getElementById('supervisor').value.toUpperCase(),
-        coordenador: document.getElementById('coordenador').value.toUpperCase(),
-        dataAcionamento: document.getElementById('dataAcionamento').value,
-        dataDeslocamento: document.getElementById('dataDeslocamento').value,
-        dataEntradaSite: document.getElementById('dataEntradaSite').value,
-        dataSaidaSite: document.getElementById('dataSaidaSite').value,
-        quemAcionou: document.getElementById('quemAcionou').value.toUpperCase(),
-        cadeado: document.getElementById('cadeado').value.toUpperCase(),
-        modeloCadeadoEntrada: document.getElementById('modeloCadeadoEntrada').value.toUpperCase() || '',
-        gradilCadeado: document.getElementById('gradilCadeado').value.toUpperCase(),
-        modeloCadeadoGradil: document.getElementById('modeloCadeadoGradil').value.toUpperCase() || '',
-        vandalizado: document.getElementById('vandalizado').value.toUpperCase(),
-        siteGPON: document.getElementById('siteGPON').value.toUpperCase(),
-        zeladoria: document.getElementById('zeladoria').value.toUpperCase(),
-        estadoPortas: document.getElementById('estadoPortas').value.toUpperCase(),
-        portaGabinete: document.getElementById('portaGabinete').value.toUpperCase() || '',
-        posteInterno: document.getElementById('posteInterno').value.toUpperCase(),
-        iluminacao: document.getElementById('iluminacao').value.toUpperCase(),
-        falhaAtividade: document.getElementById('falhaAtividade').value.toUpperCase(),
-        causaEncontrada: document.getElementById('causaEncontrada').value.toUpperCase(),
-        acaoRealizada: document.getElementById('acaoRealizada').value.toUpperCase(),
-        pendencias: document.getElementById('pendencias').value.toUpperCase(),
-        amiPendencia: document.getElementById('amiPendencia').value.toUpperCase(),
-        testadoCom: document.getElementById('testadoCom').value.toUpperCase(),
-        obs: document.getElementById('obs').value.toUpperCase(),
-        gabinetes: []
-    };
-
-    // Coleta informações dos gabinetes
-    const gabinetes = document.getElementsByClassName('gabinete');
-    for (let i = 0; i < gabinetes.length; i++) {
-        const gabinete = {
-            tipo: document.getElementById(`gabinete${i + 1}`).value.toUpperCase(),
-            retificadores: document.getElementById(`retificadores${i + 1}`).value,
-            siteBateria: document.getElementById(`siteBateria${i + 1}`).value.toUpperCase(),
-            baterias: document.getElementById(`siteBateria${i + 1}`).value === 'SIM'
-                ? document.getElementById(`baterias${i + 1}`).value.toUpperCase()
-                : null,
-            infoBateria: document.getElementById(`siteBateria${i + 1}`).value === 'SIM'
-                ? document.getElementById(`infoBateria${i + 1}`).value.toUpperCase()
-                : null,
-            quantidadeBancos: document.getElementById(`siteBateria${i + 1}`).value === 'SIM'
-                ? document.getElementById(`quantidadeBancos${i + 1}`).value.toUpperCase()
-                : null,
-            capacidade: document.getElementById(`siteBateria${i + 1}`).value === 'SIM'
-                ? document.getElementById(`capacidade${i + 1}`).value.toUpperCase()
-                : null,
-            volts: document.getElementById(`siteBateria${i + 1}`).value === 'SIM'
-                ? document.getElementById(`volts${i + 1}`).value.toUpperCase()
-                : null,
-            elemento: document.getElementById(`siteBateria${i + 1}`).value === 'SIM'
-                ? document.getElementById(`elemento${i + 1}`).value
-                : null,
-            consumoFonte: document.getElementById(`siteBateria${i + 1}`).value === 'SIM'
-                ? document.getElementById(`consumoFonte${i + 1}`).value
-                : null,
-            autonomia: document.getElementById(`siteBateria${i + 1}`).value === 'SIM'
-                ? document.getElementById(`autonomia${i + 1}`).value.toUpperCase()
-                : null,
-            tempoAutonomia: document.getElementById(`autonomia${i + 1}`).value === 'SIM'
-                ? document.getElementById(`tempoAutonomia${i + 1}`).value.toUpperCase()
-                : null
+    try {
+        const relatorio = {
+            site: document.getElementById('site')?.value?.toUpperCase() || '',
+            ami: document.getElementById('ami')?.value?.toUpperCase() || '',
+            tecnico: document.getElementById('tecnico')?.value?.toUpperCase() || '',
+            supervisor: document.getElementById('supervisor')?.value?.toUpperCase() || '',
+            coordenador: document.getElementById('coordenador')?.value?.toUpperCase() || '',
+            dataAcionamento: document.getElementById('dataAcionamento')?.value || '',
+            dataDeslocamento: document.getElementById('dataDeslocamento')?.value || '',
+            dataEntradaSite: document.getElementById('dataEntradaSite')?.value || '',
+            dataSaidaSite: document.getElementById('dataSaidaSite')?.value || '',
+            quemAcionou: document.getElementById('quemAcionou')?.value?.toUpperCase() || '',
+            cadeado: document.getElementById('cadeado')?.value?.toUpperCase() || '',
+            modeloCadeadoEntrada: document.getElementById('modeloCadeadoEntrada')?.value?.toUpperCase() || '',
+            gradilCadeado: document.getElementById('gradilCadeado')?.value?.toUpperCase() || '',
+            modeloCadeadoGradil: document.getElementById('modeloCadeadoGradil')?.value?.toUpperCase() || '',
+            vandalizado: document.getElementById('vandalizado')?.value?.toUpperCase() || '',
+            siteGPON: document.getElementById('siteGPON')?.value?.toUpperCase() || '',
+            zeladoria: document.getElementById('zeladoria')?.value?.toUpperCase() || '',
+            estadoPortas: document.getElementById('estadoPortas')?.value?.toUpperCase() || '',
+            portaGabinete: document.getElementById('portaGabinete')?.value?.toUpperCase() || '',
+            posteInterno: document.getElementById('posteInterno')?.value?.toUpperCase() || '',
+            iluminacao: document.getElementById('iluminacao')?.value?.toUpperCase() || '',
+            falhasAtividade: Array.from(document.getElementById('falhaAtividade').selectedOptions).map(option => option.value?.toUpperCase()).join(', ') || '',
+            causaEncontrada: document.getElementById('causaEncontrada')?.value?.toUpperCase() || '',
+            acaoRealizada: document.getElementById('acaoRealizada')?.value?.toUpperCase() || '',
+            pendencias: document.getElementById('pendencias')?.value?.toUpperCase() || '',
+            amiPendencia: document.getElementById('amiPendencia')?.value?.toUpperCase() || '',
+            testadoCom: document.getElementById('testadoCom')?.value?.toUpperCase() || '',
+            obs: document.getElementById('obs')?.value?.toUpperCase() || '',
+            gabinetes: []
         };
-        relatorio.gabinetes.push(gabinete);
-    }
 
-    // Montagem do relatório
+        // Coleta informações dos gabinetes
+        const gabinetes = document.getElementsByClassName('gabinete');
+        for (let i = 0; i < gabinetes.length; i++) {
+            const numeroGabinete = i + 1;
+            const siteBateriaValue = document.getElementById(`siteBateria${numeroGabinete}`)?.value;
+            const autonomiaValue = document.getElementById(`autonomia${numeroGabinete}`)?.value;
 
-    // Função para formatar data e hora
-    function formatarDataHora(data) {
-        if (!data) return '';
-        const d = new Date(data);
-        const dia = String(d.getDate()).padStart(2, '0');
-        const mes = String(d.getMonth() + 1).padStart(2, '0'); 
-        const ano = String(d.getFullYear()).slice(-2);
-        const hora = String(d.getHours()).padStart(2, '0');
-        const minuto = String(d.getMinutes()).padStart(2, '0');
-        return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
-    }
+            const gabinete = {
+                tipo: document.getElementById(`gabinete${numeroGabinete}`)?.value?.toUpperCase() || '',
+                retificadores: document.getElementById(`retificadores${numeroGabinete}`)?.value || '',
+                siteBateria: siteBateriaValue?.toUpperCase() || '',
+                baterias: siteBateriaValue === 'SIM' ? document.getElementById(`baterias${numeroGabinete}`)?.value || '' : null,
+                infoBateria: siteBateriaValue === 'SIM' ? document.getElementById(`infoBateria${numeroGabinete}`)?.value?.toUpperCase() || '' : null,
+                quantidadeBancos: siteBateriaValue === 'SIM' ? document.getElementById(`quantidadeBancos${numeroGabinete}`)?.value || '' : null,
+                capacidade: siteBateriaValue === 'SIM' ? document.getElementById(`capacidade${numeroGabinete}`)?.value?.toUpperCase() || '' : null,
+                volts: siteBateriaValue === 'SIM' ? document.getElementById(`volts${numeroGabinete}`)?.value?.toUpperCase() || '' : null,
+                elemento: siteBateriaValue === 'SIM' ? document.getElementById(`elemento${numeroGabinete}`)?.value || '' : null,
+                consumoFonte: siteBateriaValue === 'SIM' ? document.getElementById(`consumoFonte${numeroGabinete}`)?.value || '' : null,
+                autonomia: siteBateriaValue === 'SIM' ? autonomiaValue?.toUpperCase() || '' : null,
+                tempoAutonomia: autonomiaValue === 'SIM' ? document.getElementById(`tempoAutonomia${numeroGabinete}`)?.value?.toUpperCase() || '' : null
+            };
+            relatorio.gabinetes.push(gabinete);
+        }
 
-    // Formatando as datas do relatório
-    relatorio.dataAcionamento = formatarDataHora(relatorio.dataAcionamento);
-    relatorio.dataDeslocamento = formatarDataHora(relatorio.dataDeslocamento);
-    relatorio.dataEntradaSite = formatarDataHora(relatorio.dataEntradaSite);
-    relatorio.dataSaidaSite = formatarDataHora(relatorio.dataSaidaSite);
+        // Função para formatar data e hora
+        function formatarDataHora(data) {
+            if (!data) return '';
+            try {
+                const d = new Date(data);
+                if (isNaN(d.getTime())) return '';
+                const dia = String(d.getDate()).padStart(2, '0');
+                const mes = String(d.getMonth() + 1).padStart(2, '0');
+                const ano = String(d.getFullYear()).slice(-2);
+                const hora = String(d.getHours()).padStart(2, '0');
+                const minuto = String(d.getMinutes()).padStart(2, '0');
+                return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
+            } catch (e) {
+                console.error('Erro ao formatar data:', e);
+                return '';
+            }
+        }
 
-    let resultado = `
+        // Formatando as datas do relatório
+        relatorio.dataAcionamento = formatarDataHora(relatorio.dataAcionamento);
+        relatorio.dataDeslocamento = formatarDataHora(relatorio.dataDeslocamento);
+        relatorio.dataEntradaSite = formatarDataHora(relatorio.dataEntradaSite);
+        relatorio.dataSaidaSite = formatarDataHora(relatorio.dataSaidaSite);
+
+        let resultado = `
                                 *INFORME DE ATENDIMENTO TÉCNICO*
 
 *SITE:* ${relatorio.site}
@@ -258,16 +277,15 @@ ${relatorio.cadeado === 'SIM' ? `*MODELO DO CADEADO ENTRADA SITE:* ${relatorio.m
 *GRADIL POSSUI CADEADO:* ${relatorio.gradilCadeado}
 ${relatorio.gradilCadeado === 'SIM' ? `*MODELO DO CADEADO GRADIL:* ${relatorio.modeloCadeadoGradil}` : ''}
 *SITE VANDALIZADO:* ${relatorio.vandalizado}
-
 `;
 
-    relatorio.gabinetes.forEach((gabinete, index) => {
-        resultado += `
+        relatorio.gabinetes.forEach((gabinete, index) => {
+            resultado += `
 *GABINETE ${index + 1}:* ${gabinete.tipo}
 *QUANTIDADE DE RETIFICADORES NO GABINETE ${index + 1}-FCC:* ${gabinete.retificadores}
 *SITE COM BATERIA:* ${gabinete.siteBateria}
 ${gabinete.siteBateria === 'SIM'
-            ? `
+                ? `
 *QUANTIDADE DE BATERIAS NO GABINETE-FCC ${index + 1}:* ${gabinete.baterias}
 *INFORMAÇÕES DA BATERIA:* ${gabinete.infoBateria}
 *QUANTIDADE DE BANCOS:* ${gabinete.quantidadeBancos}
@@ -276,19 +294,19 @@ ${gabinete.siteBateria === 'SIM'
 *ELEMENTO:* ${gabinete.elemento}
 *CONSUMO FONTE:* ${gabinete.consumoFonte}
 *AUTONOMIA:* ${gabinete.autonomia}
-${gabinete.autonomia === 'SIM' ? `*TEMPO DE AUTONOMIA:* ${gabinete.tempoAutonomia}` : '*SITE SEM AUTONOMIA*'}` : '*SITE SEM AUTONOMIA*'}
-
+${gabinete.autonomia === 'SIM' ? `*TEMPO DE AUTONOMIA:* ${gabinete.tempoAutonomia}` : '*SITE SEM AUTONOMIA*'}`
+                : '*SITE SEM BATERIA*'}
 `;
-    });
+        });
 
-    resultado += `
+        resultado += `
 *SITE POSSUI REDE GPON:* ${relatorio.siteGPON}
 *NECESSÁRIO ZELADORIA:* ${relatorio.zeladoria}
 *ESTADO DAS PORTAS DOS GABINETES:* ${relatorio.estadoPortas}
 ${relatorio.estadoPortas === 'PRECISA DE MANUTENÇÃO' ? `*INFORMAR A PORTA DE QUAL GABINETE:* ${relatorio.portaGabinete}` : ''}
 *EXISTÊNCIA POSTE INTERNO:* ${relatorio.posteInterno}
 *EXISTÊNCIA ILUMINAÇÃO INTERNA-EXTERNA:* ${relatorio.iluminacao}
-*FALHA DA ATIVIDADE:* ${relatorio.falhaAtividade}
+*FALHAS DA ATIVIDADE:* ${relatorio.falhasAtividade}
 *CAUSA ENCONTRADA:* ${relatorio.causaEncontrada}
 *AÇÃO REALIZADA:* ${relatorio.acaoRealizada}
 *PENDÊNCIAS:* ${relatorio.pendencias}
@@ -296,44 +314,51 @@ ${relatorio.estadoPortas === 'PRECISA DE MANUTENÇÃO' ? `*INFORMAR A PORTA DE Q
 *TESTADO COM:* ${relatorio.testadoCom}
 *OBSERVAÇÕES:* ${relatorio.obs}`;
 
-    // Remover linhas vazias
-    resultado = resultado.split('\n').filter(linha => linha.trim() !== '').join('\n');
-    document.getElementById('resultado').textContent = resultado.trim();
-}
+        // Remover linhas vazias e espaços extras
+        resultado = resultado.split('\n')
+            .filter(linha => linha.trim() !== '')
+            .join('\n')
+            .replace(/\n{3,}/g, '\n\n');
 
+        document.getElementById('resultado').textContent = resultado.trim();
+    } catch (error) {
+        console.error('Erro ao gerar relatório:', error);
+        alert('Ocorreu um erro ao gerar o relatório. Por favor, verifique os dados inseridos.');
+    }
+}
 
 // Função para enviar o relatório via WhatsApp
 function enviarRelatorio() {
-    const resultado = document.getElementById('resultado').textContent;
-    const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(resultado)}`;
-    window.open(whatsappUrl, '_blank');
+    const resultado = document.getElementById('resultado')?.textContent;
+    if (resultado) {
+        const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(resultado)}`;
+        window.open(whatsappUrl, '_blank');
+    } else {
+        alert('Por favor, gere o relatório primeiro.');
+    }
 }
 
 // Função para inicializar o formulário
 function inicializarFormulario() {
-    document.getElementById('cadeado').addEventListener('change', mostrarModeloCadeadoEntrada);
-    document.getElementById('gradilCadeado').addEventListener('change', mostrarModeloCadeadoGradil);
-}
-
-window.onload = inicializarFormulario;
-
-// Adicionar evento para o botão de adicionar gabinete
-document.getElementById('adicionarGabineteBtn').addEventListener('click', adicionarGabinete);
-
-
-// Função para mostrar ou esconder o campo portaGabinete
-function mostrarPortaGabinete() {
-    const estadoPortas = document.getElementById('estadoPortas').value;
-    const portaGabineteGroup = document.getElementById('portaGabinete-group');
-    portaGabineteGroup.style.display = (estadoPortas === 'PRECISA DE MANUTENÇÃO') ? 'block' : 'none';
-}
-
-// Executa a função ao carregar a página para garantir que o campo está oculto inicialmente
-window.onload = function() {
+    // Adicionar listeners para os campos que controlam visibilidade
+    const cadeado = document.getElementById('cadeado');
+    const gradilCadeado = document.getElementById('gradilCadeado');
     const estadoPortas = document.getElementById('estadoPortas');
-    estadoPortas.value = ""; // Define o valor inicial do select
-    mostrarPortaGabinete();
-};
+    
+    if (cadeado) cadeado.addEventListener('change', mostrarModeloCadeadoEntrada);
+    if (gradilCadeado) gradilCadeado.addEventListener('change', mostrarModeloCadeadoGradil);
+    if (estadoPortas) {
+        estadoPortas.addEventListener('change', mostrarPortaGabinete);
+        estadoPortas.value = ""; // Define o valor inicial do select
+        mostrarPortaGabinete();
+    }
 
+    // Adicionar listener para o botão de adicionar gabinete
+    const adicionarGabineteBtn = document.getElementById('adicionarGabineteBtn');
+    if (adicionarGabineteBtn) {
+        adicionarGabineteBtn.addEventListener('click', adicionarGabinete);
+    }
+}
 
-
+// Inicializar o formulário quando a página carregar
+window.addEventListener('load', inicializarFormulario);
