@@ -189,6 +189,7 @@ function gerarRelatorio() {
             dataDeslocamento: document.getElementById('dataDeslocamento')?.value || '',
             dataEntradaSite: document.getElementById('dataEntradaSite')?.value || '',
             dataSaidaSite: document.getElementById('dataSaidaSite')?.value || '',
+            dataFimDeslocamento: document.getElementById('dataFimDeslocamento')?.value || '',
             quemAcionou: document.getElementById('quemAcionou')?.value?.toUpperCase() || '',
             cadeado: document.getElementById('cadeado')?.value?.toUpperCase() || '',
             modeloCadeadoEntrada: document.getElementById('modeloCadeadoEntrada')?.value?.toUpperCase() || '',
@@ -258,6 +259,7 @@ function gerarRelatorio() {
         relatorio.dataDeslocamento = formatarDataHora(relatorio.dataDeslocamento);
         relatorio.dataEntradaSite = formatarDataHora(relatorio.dataEntradaSite);
         relatorio.dataSaidaSite = formatarDataHora(relatorio.dataSaidaSite);
+        relatorio.dataFimDeslocamento = formatarDataHora(relatorio.dataFimDeslocamento);
 
         let resultado = `
                                 *INFORME DE ATENDIMENTO TÉCNICO*
@@ -271,6 +273,7 @@ function gerarRelatorio() {
 *DATA HORA DESLOCAMENTO:* ${relatorio.dataDeslocamento}
 *DATA HORA ENTRADA SITE:* ${relatorio.dataEntradaSite}
 *DATA HORA SAÍDA SITE:* ${relatorio.dataSaidaSite}
+*DATA HORA FIM DESLOCAMENTO:* ${relatorio.dataFimDeslocamento}
 *QUEM ACIONOU:* ${relatorio.quemAcionou}
 *ENTRADA SITE POSSUI CADEADO:* ${relatorio.cadeado}
 ${relatorio.cadeado === 'SIM' ? `*MODELO DO CADEADO ENTRADA SITE:* ${relatorio.modeloCadeadoEntrada}` : ''}
@@ -362,3 +365,91 @@ function inicializarFormulario() {
 
 // Inicializar o formulário quando a página carregar
 window.addEventListener('load', inicializarFormulario);
+
+// Função para gerar mensagem de entrada
+function gerarEntrada() {
+    try {
+        const falhasAtividade = Array.from(document.getElementById('falhaAtividade').selectedOptions)
+            .map(option => option.value)
+            .join(', ');
+
+        const entrada = `*ENTRADA: (X)*
+*EMPRESA: STTE*
+*SITE:* ${document.getElementById('site')?.value?.toUpperCase() || ''}
+*AMI:* ${document.getElementById('ami')?.value?.toUpperCase() || ''}
+*FALHA DA ATIVIDADE:* ${falhasAtividade}
+*TÉCNICO:* ${document.getElementById('tecnico')?.value?.toUpperCase() || ''}
+*SUPERVISOR:* ${document.getElementById('supervisor')?.value?.toUpperCase() || ''}
+*COORDENADOR:* ${document.getElementById('coordenador')?.value?.toUpperCase() || ''}
+*DATA HORA ENTRADA:* ${formatarDataHora(document.getElementById('dataEntradaSite')?.value || '')}`;
+
+        document.getElementById('resultado').textContent = entrada.trim();
+    } catch (error) {
+        console.error('Erro ao gerar entrada:', error);
+        alert('Ocorreu um erro ao gerar a entrada. Por favor, verifique os dados inseridos.');
+    }
+}
+
+// Função para gerar mensagem de saída
+function gerarSaida() {
+    try {
+        const falhasAtividade = Array.from(document.getElementById('falhaAtividade').selectedOptions)
+            .map(option => option.value)
+            .join(', ');
+
+        const saida = `*SAÍDA:* (X)
+*EMPRESA: STTE*
+*SITE:* ${document.getElementById('site')?.value?.toUpperCase() || ''}
+*AMI:* ${document.getElementById('ami')?.value?.toUpperCase() || ''}
+*FALHA DA ATIVIDADE:* ${falhasAtividade}
+*TÉCNICO:* ${document.getElementById('tecnico')?.value?.toUpperCase() || ''}
+*SUPERVISOR:* ${document.getElementById('supervisor')?.value?.toUpperCase() || ''}
+*COORDENADOR:* ${document.getElementById('coordenador')?.value?.toUpperCase() || ''}
+*DATA HORA SAÍDA:* ${formatarDataHora(document.getElementById('dataSaidaSite')?.value || '')}`;
+
+        document.getElementById('resultado').textContent = saida.trim();
+    } catch (error) {
+        console.error('Erro ao gerar saída:', error);
+        alert('Ocorreu um erro ao gerar a saída. Por favor, verifique os dados inseridos.');
+    }
+}
+
+// Função auxiliar para formatar data e hora
+function formatarDataHora(dataHora) {
+    if (!dataHora) return '';
+    const data = new Date(dataHora);
+    return data.toLocaleString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+}
+
+// Função para gerar novo relatório
+function gerarNovoRelatorio() {
+    try {
+        const falhasAtividade = Array.from(document.getElementById('falhaAtividade').selectedOptions)
+            .map(option => option.value)
+            .join(', ');
+
+        const relatorio = `*INFORME DE ATENDIMENTO TÉCNICO*
+*SITE:* ${document.getElementById('site')?.value?.toUpperCase() || ''}
+*AMI:* ${document.getElementById('ami')?.value?.toUpperCase() || ''}
+*NOME DO TÉCNICO:* ${document.getElementById('tecnico')?.value?.toUpperCase() || ''}
+*NOME DO SUPERVISOR:* ${document.getElementById('supervisor')?.value?.toUpperCase() || ''}
+*COORDENADOR:* ${document.getElementById('coordenador')?.value?.toUpperCase() || ''}
+*DATA ACIONAMENTO:* ${formatarDataHora(document.getElementById('dataAcionamento')?.value || '')}
+*DATA HORA DESLOCAMENTO:* ${formatarDataHora(document.getElementById('dataDeslocamento')?.value || '')}
+*DATA HORA FIM DESLOCAMENTO:* ${formatarDataHora(document.getElementById('dataFimDeslocamento')?.value || '')}
+*QUEM ACIONOU:* ${document.getElementById('quemAcionou')?.value?.toUpperCase() || ''}
+*FALHA DA ATIVIDADE:* ${falhasAtividade}
+*CAUSA ENCONTRADA:* ${document.getElementById('causaEncontrada')?.value?.toUpperCase() || ''}`;
+
+        document.getElementById('resultado').textContent = relatorio.trim();
+    } catch (error) {
+        console.error('Erro ao gerar relatório:', error);
+        alert('Ocorreu um erro ao gerar o relatório. Por favor, verifique os dados inseridos.');
+    }
+}

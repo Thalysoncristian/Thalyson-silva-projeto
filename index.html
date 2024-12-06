@@ -80,6 +80,11 @@
             </div>
             
             <div class="form-group">
+                <label for="dataFimDeslocamento">DATA HORA FIM DESLOCAMENTO:</label>
+                <input type="datetime-local" id="dataFimDeslocamento" class="form-control" required>
+            </div>
+
+            <div class="form-group">
                 <label for="quemAcionou">QUEM ACIONOU:</label>
                 <select id="quemAcionou" class="form-control" required>
                     <option value="">Selecione...</option>
@@ -304,17 +309,33 @@
                 <label for="obs">OBS:</label>
                 <textarea id="obs" class="form-control" rows="4" ></textarea>
             </div>
-            <div id="resultado" class="mt-4"></div>
+
+            
+            
+        </form>
+
+        <button type="button" class="btn btn-secondary btn-block" onclick="gerarEntrada()">
+            <i class="fa fa-sign-in"></i> Entrada
+        </button>
+        <button type="button" class="btn btn-danger btn-block" onclick="gerarSaida()">
+            <i class="fa fa-sign-out"></i> Saída
+        </button>
+        <button type="button" class="btn btn-warning btn-block" onclick="gerarNovoRelatorio()">
+            <i class="fa fa-refresh"></i> Clear Date
+        </button>
+        
+
+        <div id="resultado" class="mt-4"></div>
             <button type="submit" class="btn btn-primary btn-block" onclick="gerarRelatorio()">
                 <i class="fa fa-file-text"></i> Gerar Relatório
             </button>
-            <button type="button" class="btn btn-success btn-block" onclick="enviarRelatorio()">
-                <i class="fa fa-whatsapp"></i> Enviar Relatório
-            </button>
-        </form>
-
 
         
+        <button type="button" class="btn btn-success btn-block" onclick="enviarRelatorio()">
+            <i class="fa fa-whatsapp"></i> Enviar Relatório
+        </button>
+
+
         <footer class="text-center mt-5">
             <p class="text-muted">
                 Thalyson Silva - NOC - STTE - 
