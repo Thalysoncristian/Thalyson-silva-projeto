@@ -179,13 +179,6 @@ function mostrarPortaGabinete() {
 // Função para gerar o relatório
 function gerarRelatorio() {
     try {
-        // Salvar os valores dos campos antes de gerar o relatório
-        const camposPreenchidos = {};
-        const inputs = document.querySelectorAll('input, select, textarea');
-        inputs.forEach(input => {
-            camposPreenchidos[input.id] = input.value;
-        });
-
         const relatorio = {
             site: document.getElementById('site')?.value?.toUpperCase() || '',
             ami: document.getElementById('ami')?.value?.toUpperCase() || '',
@@ -194,7 +187,6 @@ function gerarRelatorio() {
             coordenador: document.getElementById('coordenador')?.value?.toUpperCase() || '',
             dataAcionamento: document.getElementById('dataAcionamento')?.value || '',
             dataDeslocamento: document.getElementById('dataDeslocamento')?.value || '',
-            dataFimDeslocamento: document.getElementById('dataFimDeslocamento')?.value || '',
             dataEntradaSite: document.getElementById('dataEntradaSite')?.value || '',
             dataSaidaSite: document.getElementById('dataSaidaSite')?.value || '',
             quemAcionou: document.getElementById('quemAcionou')?.value?.toUpperCase() || '',
@@ -264,7 +256,6 @@ function gerarRelatorio() {
         // Formatando as datas do relatório
         relatorio.dataAcionamento = formatarDataHora(relatorio.dataAcionamento);
         relatorio.dataDeslocamento = formatarDataHora(relatorio.dataDeslocamento);
-        relatorio.dataFimDeslocamento = formatarDataHora(relatorio.dataFimDeslocamento);
         relatorio.dataEntradaSite = formatarDataHora(relatorio.dataEntradaSite);
         relatorio.dataSaidaSite = formatarDataHora(relatorio.dataSaidaSite);
 
@@ -277,8 +268,7 @@ function gerarRelatorio() {
 *NOME DO SUPERVISOR:* ${relatorio.supervisor}
 *COORDENADOR:* ${relatorio.coordenador}
 *DATA ACIONAMENTO:* ${relatorio.dataAcionamento}
-*DATA HORA INÍCIO DESLOCAMENTO:* ${relatorio.dataDeslocamento}
-*DATA HORA FIM DESLOCAMENTO:* ${relatorio.dataFimDeslocamento}
+*DATA HORA DESLOCAMENTO:* ${relatorio.dataDeslocamento}
 *DATA HORA ENTRADA SITE:* ${relatorio.dataEntradaSite}
 *DATA HORA SAÍDA SITE:* ${relatorio.dataSaidaSite}
 *QUEM ACIONOU:* ${relatorio.quemAcionou}
@@ -331,14 +321,6 @@ ${relatorio.estadoPortas === 'PRECISA DE MANUTENÇÃO' ? `*INFORMAR A PORTA DE Q
             .replace(/\n{3,}/g, '\n\n');
 
         document.getElementById('resultado').textContent = resultado.trim();
-
-        // Restaurar os valores dos campos após gerar o relatório
-        inputs.forEach(input => {
-            if (camposPreenchidos[input.id]) {
-                input.value = camposPreenchidos[input.id];
-            }
-        });
-
     } catch (error) {
         console.error('Erro ao gerar relatório:', error);
         alert('Ocorreu um erro ao gerar o relatório. Por favor, verifique os dados inseridos.');
