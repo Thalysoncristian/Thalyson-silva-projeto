@@ -298,7 +298,7 @@ ${gabinete.siteBateria === 'SIM'
 *CONSUMO FONTE:* ${gabinete.consumoFonte}
 *AUTONOMIA:* ${gabinete.autonomia}
 ${gabinete.autonomia === 'SIM' ? `*TEMPO DE AUTONOMIA:* ${gabinete.tempoAutonomia}` : '*SITE SEM AUTONOMIA*'}`
-                : '*SITE SEM BATERIA*'}
+                : '*SITE SEM AUTONOMIA*'}
 `;
         });
 
