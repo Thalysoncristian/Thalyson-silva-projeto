@@ -78,6 +78,10 @@
                 <label for="dataSaidaSite">DATA HORA SAÍDA SITE:</label>
                 <input type="datetime-local" id="dataSaidaSite" class="form-control" required>
             </div>
+            <div class="form-group">
+                <label for="dataFimDeslocamento">DATA HORA FIM DESLOCAMENTO:</label>
+                <input type="datetime-local" id="dataFimDeslocamento" class="form-control" required>
+            </div>
             
             <div class="form-group">
                 <label for="quemAcionou">QUEM ACIONOU:</label>
@@ -311,10 +315,75 @@
             <button type="button" class="btn btn-success btn-block" onclick="enviarRelatorio()">
                 <i class="fa fa-whatsapp"></i> Enviar Relatório
             </button>
+            <button type="button" class="btn btn-warning btn-block" onclick="gerarNovoRelatorio()">
+                <i class="fa fa-file"></i> Clear date
+            </button>
+            <script>
+                function gerarNovoRelatorio() {
+                    try {
+                        // Preserva os campos especificados
+                        const dadosPreservados = {
+                            site: document.getElementById('site')?.value?.toUpperCase() || '',
+                            ami: document.getElementById('ami')?.value?.toUpperCase() || '',
+                            tecnico: document.getElementById('tecnico')?.value?.toUpperCase() || '',
+                            supervisor: document.getElementById('supervisor')?.value?.toUpperCase() || '',
+                            coordenador: document.getElementById('coordenador')?.value?.toUpperCase() || '',
+                            quemAcionou: document.getElementById('quemAcionou')?.value?.toUpperCase() || '',
+                            dataAcionamento: document.getElementById('dataAcionamento')?.value || '',
+                            dataDeslocamento: document.getElementById('dataDeslocamento')?.value || '',
+                            dataFimDeslocamento: document.getElementById('dataFimDeslocamento')?.value || '',
+                            falhaAtividade: $('#falhaAtividade').val()?.map(f => f.toUpperCase()) || [],
+                            causaEncontrada: document.getElementById('causaEncontrada')?.value?.toUpperCase() || '',
+                            testadoCom: document.getElementById('testadoCom')?.value?.toUpperCase() || ''
+                        };
+
+                        // Limpa o formulário inteiro
+                        const form = document.getElementById('relatorioForm');
+                        if (form) {
+                            form.reset();
+                        }
+
+                        // Formata as datas
+                        const formatarData = (data) => {
+                            if (!data) return '';
+                            const d = new Date(data);
+                            const dia = d.getDate().toString().padStart(2, '0');
+                            const mes = (d.getMonth() + 1).toString().padStart(2, '0');
+                            const ano = d.getFullYear().toString().slice(-2);
+                            const hora = d.getHours().toString().padStart(2, '0');
+                            const minuto = d.getMinutes().toString().padStart(2, '0');
+                            return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
+                        };
+
+                        // Gera o texto do relatório
+                        const relatorio = `*INFORME DE ATENDIMENTO TÉCNICO*
+*SITE:* ${dadosPreservados.site}
+*AMI:* ${dadosPreservados.ami}
+*NOME DO TÉCNICO:* ${dadosPreservados.tecnico}
+*NOME DO SUPERVISOR:* ${dadosPreservados.supervisor}
+*COORDENADOR:* ${dadosPreservados.coordenador}
+*DATA ACIONAMENTO:* ${formatarData(dadosPreservados.dataAcionamento)}
+*DATA HORA DESLOCAMENTO:* ${formatarData(dadosPreservados.dataDeslocamento)}
+*DATA HORA FIM DESLOCAMENTO:* ${formatarData(dadosPreservados.dataFimDeslocamento)}
+*QUEM ACIONOU:* ${dadosPreservados.quemAcionou}
+*FALHA NORMALIZADA:* ${dadosPreservados.falhaAtividade.join(', ')}
+*CAUSA ENCONTRADA:* ${dadosPreservados.causaEncontrada}
+*TESTADO COM:* ${dadosPreservados.testadoCom}`;
+
+                        // Exibe o relatório na div resultado
+                        const resultadoDiv = document.getElementById('resultado');
+                        if (resultadoDiv) {
+                            resultadoDiv.innerText = relatorio;
+                        }
+
+                    } catch (erro) {
+                        console.error('ERRO AO GERAR NOVO RELATÓRIO:', erro);
+                        alert('OCORREU UM ERRO AO GERAR NOVO RELATÓRIO. POR FAVOR, TENTE NOVAMENTE.');
+                    }
+                }
+            </script>
         </form>
 
-
-        
         <footer class="text-center mt-5">
             <p class="text-muted">
                 Thalyson Silva - NOC - STTE - 

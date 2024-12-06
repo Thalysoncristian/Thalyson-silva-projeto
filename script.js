@@ -187,6 +187,7 @@ function gerarRelatorio() {
             coordenador: document.getElementById('coordenador')?.value?.toUpperCase() || '',
             dataAcionamento: document.getElementById('dataAcionamento')?.value || '',
             dataDeslocamento: document.getElementById('dataDeslocamento')?.value || '',
+            dataFimDeslocamento: document.getElementById('dataFimDeslocamento')?.value || '',
             dataEntradaSite: document.getElementById('dataEntradaSite')?.value || '',
             dataSaidaSite: document.getElementById('dataSaidaSite')?.value || '',
             quemAcionou: document.getElementById('quemAcionou')?.value?.toUpperCase() || '',
@@ -256,6 +257,7 @@ function gerarRelatorio() {
         // Formatando as datas do relatório
         relatorio.dataAcionamento = formatarDataHora(relatorio.dataAcionamento);
         relatorio.dataDeslocamento = formatarDataHora(relatorio.dataDeslocamento);
+        relatorio.dataFimDeslocamento = formatarDataHora(relatorio.dataFimDeslocamento);
         relatorio.dataEntradaSite = formatarDataHora(relatorio.dataEntradaSite);
         relatorio.dataSaidaSite = formatarDataHora(relatorio.dataSaidaSite);
 
@@ -268,7 +270,8 @@ function gerarRelatorio() {
 *NOME DO SUPERVISOR:* ${relatorio.supervisor}
 *COORDENADOR:* ${relatorio.coordenador}
 *DATA ACIONAMENTO:* ${relatorio.dataAcionamento}
-*DATA HORA DESLOCAMENTO:* ${relatorio.dataDeslocamento}
+*DATA HORA INÍCIO DESLOCAMENTO:* ${relatorio.dataDeslocamento}
+*DATA HORA FIM DESLOCAMENTO:* ${relatorio.dataFimDeslocamento}
 *DATA HORA ENTRADA SITE:* ${relatorio.dataEntradaSite}
 *DATA HORA SAÍDA SITE:* ${relatorio.dataSaidaSite}
 *QUEM ACIONOU:* ${relatorio.quemAcionou}
