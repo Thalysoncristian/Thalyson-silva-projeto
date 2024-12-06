@@ -179,6 +179,13 @@ function mostrarPortaGabinete() {
 // Função para gerar o relatório
 function gerarRelatorio() {
     try {
+        // Salvar os valores dos campos antes de gerar o relatório
+        const camposPreenchidos = {};
+        const inputs = document.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            camposPreenchidos[input.id] = input.value;
+        });
+
         const relatorio = {
             site: document.getElementById('site')?.value?.toUpperCase() || '',
             ami: document.getElementById('ami')?.value?.toUpperCase() || '',
@@ -324,6 +331,14 @@ ${relatorio.estadoPortas === 'PRECISA DE MANUTENÇÃO' ? `*INFORMAR A PORTA DE Q
             .replace(/\n{3,}/g, '\n\n');
 
         document.getElementById('resultado').textContent = resultado.trim();
+
+        // Restaurar os valores dos campos após gerar o relatório
+        inputs.forEach(input => {
+            if (camposPreenchidos[input.id]) {
+                input.value = camposPreenchidos[input.id];
+            }
+        });
+
     } catch (error) {
         console.error('Erro ao gerar relatório:', error);
         alert('Ocorreu um erro ao gerar o relatório. Por favor, verifique os dados inseridos.');

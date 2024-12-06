@@ -309,14 +309,65 @@
                 <textarea id="obs" class="form-control" rows="4" ></textarea>
             </div>
             <div id="resultado" class="mt-4"></div>
-            <button type="submit" class="btn btn-primary btn-block" onclick="gerarRelatorio()">
-                <i class="fa fa-file-text"></i> Gerar Relatório
+            
+            <button type="button" class="btn btn-secondary btn-block" onclick="gerarEntrada()">
+                <i class="fa fa-sign-in"></i> Entrada
             </button>
-            <button type="button" class="btn btn-success btn-block" onclick="enviarRelatorio()">
-                <i class="fa fa-whatsapp"></i> Enviar Relatório
+            <script>
+                function gerarEntrada() {
+                    const site = document.getElementById('site').value.toUpperCase();
+                    const ami = document.getElementById('ami').value.toUpperCase();
+                    const falhaAtividade = $('#falhaAtividade').val()?.join(', ').toUpperCase() || '';
+                    const tecnico = document.getElementById('tecnico').value.toUpperCase();
+                    const supervisor = document.getElementById('supervisor').value.toUpperCase();
+                    const coordenador = document.getElementById('coordenador').value.toUpperCase();
+                    const dataHoraEntrada = new Date().toLocaleString('pt-BR');
+                    
+                    const entradaTexto = `*ENTRADA: (X)*
+*EMPRESA: STTE*
+*SITE:* ${site}
+*AMI:* ${ami}
+*FALHA DA ATIVIDADE:* ${falhaAtividade}
+*TÉCNICO:* ${tecnico}
+*SUPERVISOR:* ${supervisor}
+*COORDENADOR:* ${coordenador}
+*DATA HORA ENTRADA:* ${dataHoraEntrada}`;
+                    
+                    document.getElementById('resultado').innerText = entradaTexto;
+                }
+            </script>
+
+            <button type="button" class="btn btn-danger btn-block" onclick="gerarSaida()">
+                <i class="fa fa-sign-out"></i> SAÍDA
             </button>
+            <script>
+                function gerarSaida() {
+                    const site = document.getElementById('site').value.toUpperCase();
+                    const ami = document.getElementById('ami').value.toUpperCase();
+                    const falhaAtividade = $('#falhaAtividade').val()?.join(', ').toUpperCase() || '';
+                    const tecnico = document.getElementById('tecnico').value.toUpperCase();
+                    const supervisor = document.getElementById('supervisor').value.toUpperCase();
+                    const coordenador = document.getElementById('coordenador').value.toUpperCase();
+                    const dataHoraSaida = new Date().toLocaleString('pt-BR');
+                    
+                    const saidaTexto = `*SAÍDA: (X)*
+*EMPRESA: STTE*
+*SITE:* ${site}
+*AMI:* ${ami}
+*FALHA DA ATIVIDADE:* ${falhaAtividade}
+*TÉCNICO:* ${tecnico}
+*SUPERVISOR:* ${supervisor}
+*COORDENADOR:* ${coordenador}
+*DATA HORA SAÍDA:* ${dataHoraSaida}`;
+                    
+                    document.getElementById('resultado').innerText = saidaTexto;
+                }
+            </script>
+
+            
+            
             <button type="button" class="btn btn-warning btn-block" onclick="gerarNovoRelatorio()">
-                <i class="fa fa-file"></i> Clear date
+                <i class="fa fa-file"></i> CLEAR DATE
             </button>
             <script>
                 function gerarNovoRelatorio() {
@@ -366,7 +417,7 @@
 *DATA HORA DESLOCAMENTO:* ${formatarData(dadosPreservados.dataDeslocamento)}
 *DATA HORA FIM DESLOCAMENTO:* ${formatarData(dadosPreservados.dataFimDeslocamento)}
 *QUEM ACIONOU:* ${dadosPreservados.quemAcionou}
-*FALHA NORMALIZADA:* ${dadosPreservados.falhaAtividade.join(', ')}
+*FALHA DA ATIVIDADE:* ${dadosPreservados.falhaAtividade.join(', ')}
 *CAUSA ENCONTRADA:* ${dadosPreservados.causaEncontrada}
 *TESTADO COM:* ${dadosPreservados.testadoCom}`;
 
@@ -383,6 +434,14 @@
                 }
             </script>
         </form>
+
+        <button type="submit" class="btn btn-primary btn-block" onclick="gerarRelatorio()">
+            <i class="fa fa-file-text"></i> Gerar Relatório
+        </button>
+
+        <button type="button" class="btn btn-success btn-block" onclick="enviarRelatorio()">
+            <i class="fa fa-whatsapp"></i> Enviar Relatório
+        </button>
 
         <footer class="text-center mt-5">
             <p class="text-muted">
