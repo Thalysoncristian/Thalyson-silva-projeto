@@ -445,7 +445,7 @@ function gerarNovoRelatorio() {
 *DATA HORA FIM DESLOCAMENTO:* ${formatarDataHora(document.getElementById('dataFimDeslocamento')?.value || '')}
 *QUEM ACIONOU:* ${document.getElementById('quemAcionou')?.value?.toUpperCase() || ''}
 *FALHA DA ATIVIDADE:* ${falhasAtividade}
-*CAUSA ENCONTRADA:* ${document.getElementById('causaEncontrada')?.value?.toUpperCase() || ''}`;
+*AÇÃO REALIZADA:* ${document.getElementById('acaoRealizada')?.value?.toUpperCase() || ''}`;
 
         document.getElementById('resultado').textContent = relatorio.trim();
     } catch (error) {
